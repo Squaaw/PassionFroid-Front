@@ -1,0 +1,37 @@
+<div class="search-filter-wrapper">
+    <div class="searchbar-wrapper">
+        <form action="/search">
+            <input type="search" placeholder="Rechercher un produit..." name="search">
+            <fa-icon [icon]="faSearch" class="icon-search"></fa-icon>
+          </form>
+    </div>
+    <div class="filter-wrapper">
+        <select>
+            <option selected>Catégorie <fa-icon [icon]="faChevronDown" class="icon-chevron"></fa-icon></option>
+        </select>
+        <select><option>Type <fa-icon [icon]="faChevronDown" class="icon-chevron"></fa-icon></option></select>
+        <select>
+            <option selected>Format <fa-icon [icon]="faChevronDown" class="icon-chevron"></fa-icon></option>
+            <option>Jpg</option>
+            <option>Png</option>
+        </select>
+        <select><option>Cible <fa-icon [icon]="faChevronDown" class="icon-chevron"></fa-icon></option></select>
+    </div>
+    <main class="list-images-wrapper">
+        <div class="header-list-wrapper">
+            <p>Liste des images</p>
+            <div class="filter-list">
+                <img src="assets/icon/grid.png" alt="icone grid" (click)="toggleComponents('gallery')" class="icon-list" [ngStyle]="{'background-color': gallery ? '#E3E3E3' : 'inherit'}">
+                <fa-icon [icon]="faList" class="icon-list" (click)="toggleComponents('table')" class="icon-list" [ngStyle]="{'background-color': table ? '#E3E3E3' : 'inherit'}"></fa-icon>
+            </div>
+            <button (click)="openDialog()">
+                Ajouter
+                <fa-icon [icon]="faAdd" class="icon-add"></fa-icon>
+            </button>
+        </div>
+        <app-gallery class="image-gallery" *ngIf="gallery"></app-gallery>
+        <div *ngIf="table">
+            <app-table></app-table>
+        </div>
+    </main>
+</div>

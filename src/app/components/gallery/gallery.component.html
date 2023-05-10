@@ -1,0 +1,5 @@
+<div class="column" *ngFor="let item of images.slice(0, images.length / 3); let i = index">
+    <div class="image-item"  *ngFor="let value of images.slice(i * 3, i * 3 + 3)">
+        <app-card [value]="value"></app-card>
+    </div>
+</div>

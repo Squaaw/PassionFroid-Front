@@ -1,0 +1,23 @@
+<div class="dialog">
+    <div class="content-modal">
+        <fa-icon mat-raised-button [mat-dialog-close]="false" [icon]="faClose" class="close-btn"></fa-icon>
+        <ng-container *ngIf="data.name === 'upload'; else editModal">
+            <h2 mat-dialog-title>Charger une image depuis {{titleModal}} </h2>
+            <app-upload-form></app-upload-form>
+            
+            
+        </ng-container>
+        
+        <ng-template #editModal>
+            <ng-container *ngIf="data.name === 'edit';">
+            <h2 mat-dialog-title>Editez le contenu</h2>
+                <p>This is the content for modal type B.</p>
+                <div class="actions-buttons">
+                    <button mat-raised-button class="submit-btn">Submit</button>
+                    <button mat-raised-button [mat-dialog-close]="false" class="close-btn">Fermer</button>
+                </div>
+            </ng-container>
+        </ng-template>
+    </div>
+</div>
+

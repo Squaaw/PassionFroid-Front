@@ -1,0 +1,244 @@
+form{
+    padding: 2rem;
+  
+    .choices-buttons{
+        display: flex;
+        align-content: center;
+        align-items: center;
+        justify-content: center;
+        margin-bottom: 2rem;
+
+        .file-input-upload-bis{
+            margin-top: 0!important;
+            
+            p{
+                text-align: center;
+            }
+
+            fa-icon{
+                font-size: 2rem!important;
+                margin-left: 2rem;
+                color: #48486a;
+            }
+            fa-icon:hover{
+                color: #48486a93;
+                cursor: pointer;
+            }
+        }
+    }
+
+    div{
+        .url-input{
+            margin-top: 1rem;
+            width: 100%;
+            border-radius: 5px;
+            border: 1px solid #6b616169;
+            padding: 0.5rem;
+        }
+        .url-input:focus{
+            border: 1px solid rgb(70, 239, 245)!important;
+        }
+    }
+  
+    .list-img-name div{
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        align-content: center;
+        border-bottom: 1px solid #d8d8d88f;
+
+        p{
+            padding: 16px;
+            font-size: 0.9rem;
+        }
+
+        fa-icon{
+            color: crimson;
+        }
+
+        fa-icon:hover{
+            transform: scale(1.2);
+        }
+    }
+
+
+    .upload-container{
+        border: 1.5px dashed #b4a7a7;
+        width: fit-content;
+        margin: auto;
+        .wrapper{
+            min-height: 86px;
+            max-width: 848px;
+            display: flex;
+            flex-wrap: wrap;
+            flex-direction: row;
+            align-items: center;
+            justify-content: center;
+            margin: auto;
+            transition: transform 0.3s;
+        }
+
+        .wrapper-url{
+            flex-direction: column!important;
+        }
+
+        
+        .uploaded-img{
+            width: 100%;
+            height: auto;
+            object-fit: cover;
+        }
+    }
+
+    .drag-over{
+        background-color: #acacba!important;
+    }
+
+    .upload-container-bis{
+        border: none!important;
+        margin: auto;
+        min-height: 86px;
+        width: fit-content;
+        .uploaded-img{
+            width: 100%;
+            height: auto;
+            object-fit: cover;
+        }
+    }
+
+    #file-input{
+        display: none;
+        opacity: 0;
+        margin: 0;
+    }
+
+    .file-upload-info{
+        display: flex;
+        height: 5rem;
+        flex-direction: column;
+        margin-top: 2rem;
+        justify-content: space-around;
+
+        label{
+            span{
+                text-decoration: underline;
+                cursor: pointer;
+            }
+        }
+    }
+
+    .file-input-upload, .file-input-upload-bis{
+        text-align: center;
+
+        .icon-upload{
+            font-size: 2.5rem;
+            color: #48486a;
+        }
+        .icon-upload:hover{
+            color: #48486a93;
+            cursor: pointer;
+        }
+    }
+
+    .img-container{
+        position: relative;
+        margin: 0.5rem;
+        flex: 1 0 auto;
+
+        .overlay-remove {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 99%;
+            opacity: 0;
+            background-color: rgba(0, 0, 0, 0.5); /* adjust as needed */
+            transition: opacity 0.6s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+    }
+
+    .img-container:hover img{
+        opacity: 0.7;
+    }
+
+    .img-container:hover .overlay-remove {
+        opacity: 1;
+    }
+
+    
+    .overlay-remove fa-icon {
+        color: white;
+        font-size: 24px; /* adjust as needed */
+        transition: transform 0.3s;
+    }
+
+    .overlay-remove fa-icon:hover{
+        color: crimson;
+        transform: scale(1.6);
+    }
+    
+    .image-container:hover img {
+        opacity: 0.1; /* adjust as needed */
+    }
+    
+    .image-container:hover .overlay {
+        opacity: 1;
+    }
+
+    img{
+        max-height: 270px;
+        transition: opacity 0.3s;
+    }
+
+}
+
+.is-display-list{
+    justify-content: center!important;
+}
+.actions-buttons{
+    display: flex;
+    padding: 2rem;
+    justify-content: space-between;
+    align-content: center;
+    align-items: center;
+
+    input[type="submit"]{
+        box-sizing: border-box;
+        position: relative;
+        -webkit-user-select: none;
+        user-select: none;
+        cursor: pointer;
+        outline: none;
+        border: none;
+        -webkit-tap-highlight-color: transparent;
+        display: inline-block;
+        white-space: nowrap;
+        text-decoration: none;
+        vertical-align: baseline;
+        text-align: center;
+        margin: 0;
+        min-width: 64px;
+        line-height: 36px;
+        padding: 0 16px;
+        border-radius: 4px;
+        overflow: visible;
+        transform: translate3d(0, 0, 0);
+        transition: background 400ms cubic-bezier(0.25, 0.8, 0.25, 1),box-shadow 280ms cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    button, input[type="submit"]{
+        color: white;
+        margin: 0.3rem;
+        
+    }
+    .cancel-btn{
+        background-color: #6b6b6b;
+    }
+
+    .submit-btn{
+        background-color: #8006AB;
+    }
+}

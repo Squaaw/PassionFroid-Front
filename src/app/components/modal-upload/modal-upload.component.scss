@@ -1,0 +1,33 @@
+
+
+  .dialog{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    position: relative;
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+    background: white;
+    min-width: 600px;
+    max-width: 700px;
+    min-height: 200px;
+    border-radius: 5px;
+
+    .content-modal{
+      padding: 1rem;
+      .close-btn{
+        color: crimson;
+        margin-left: 0.5rem;
+        position: absolute;
+        top: 18px;
+        right: 25px;
+      }
+
+      h2{
+        line-height: 1.6rem;
+        text-align: center;
+        font-size: 1.2rem;
+        margin-top: 1rem;
+      }
+
+    }
+  }

@@ -1,0 +1,74 @@
+<form #uploadForm="ngForm" (ngSubmit)="onFormSubmit(uploadForm)">
+    <div class="choices-buttons">
+        <p>
+            <input type="radio" value="url" name="image" [(ngModel)]="selectedOption" (change)="onSelected($event)"> Image URL
+            <input type="radio" value="file" name="image" [(ngModel)]="selectedOption" (change)="onSelected($event)"> Image file
+        </p>
+        <div class="file-input-upload-bis" *ngIf="selectedImages.length > 0">
+            <label for="file-input">
+                <fa-icon [icon]="faUpload" class="icon-upload"></fa-icon>
+            </label>
+        </div>
+    </div>
+    <div
+        (dragover)="onDragOver($event)"
+        (drop)="onDrop($event)" 
+        [ngClass]=
+        "{'upload-container': selectedImages.length > 0 && table == false, 'upload-container-bis': selectedImages.length == 0 || selectedOption == 'url' && selectedImages.length >= 0, 'upload-container-url': selectedOption == 'url' || gallery==false, 'drag-over': isDragOver}"
+        >
+        <div class="wrapper" [ngClass]="{'wrapper-url': selectedOption == 'url'}">
+            <div *ngIf="selectedOption == 'url';else other_content">
+                <label for="url-input">
+                    Entrez une url au format "jpg / png"
+                    <input matInput type="text" id="myInput" class="url-input" name="url-image" [(ngModel)]="urlImage" placeholder="Entrez une Url" (keyup)="onInputChange($event)">
+                    <fa-icon [icon]="faPlus" *ngIf="characterUrl.length > 0" (click)="onAddUrlImage()"></fa-icon>
+                </label>
+            </div>
+            <ng-template #other_content>
+                <ng-container *ngIf="this.imageSrc != null || droppedImage != null">
+                    <ng-container *ngIf="gallery">
+                        <div class="img-container" *ngFor="let img of selectedImages; let i = index">
+                            <img [src]="img" alt="img.fileName" class="uploaded-img">
+                            <div class="overlay-remove">
+                                <fa-icon [icon]="faTrash" (click)="clearImg(i)"></fa-icon>
+                            </div>
+                        </div>
+                    </ng-container>
+                    <div class="list-img-name" *ngIf="table">
+                        <div *ngFor="let fileName of allFileNames; let i = index">
+                            <p>{{fileName}}</p>
+                            <fa-icon [icon]="faTrash" (click)="clearImg(i)"></fa-icon>
+                        </div>
+                    </div>
+                </ng-container>
+                
+                <div class="file-input-upload">
+                    <label for="file-input">
+                        <fa-icon [icon]="faUpload" class="icon-upload" *ngIf="selectedImages.length == 0"></fa-icon>
+                    </label>
+                    <div class="file-upload-info" *ngIf="selectedImages.length == 0">
+                        <span>Drag and drop file here</span>
+                        <span>or</span>
+                        <label for="file-input">
+                            <span>Choose from computer</span>
+                        </label>
+                    </div>
+                </div>
+                
+                <input type="file" #imageInput id="file-input" class="url-input" name="file" (change)="handleInputChange($event)" multiple>
+            </ng-template>
+        </div>
+    </div>
+    <div [ngClass]=
+            "{'is-display-list': selectedImages.length == 0 || selectedOption == 'url'}"
+            class="actions-buttons" >
+        <div class="filter-list" *ngIf="selectedOption == 'file' && selectedImages.length > 0;">
+            <img src="assets/icon/grid.png" alt="icone grid" (click)="toggleComponents('gallery')" class="icon-list" [ngStyle]="{'background-color': gallery ? '#E3E3E3' : 'inherit'}">
+            <fa-icon [icon]="faList" class="icon-list" (click)="toggleComponents('table')" class="icon-list" [ngStyle]="{'background-color': table ? '#E3E3E3' : 'inherit'}"></fa-icon>
+        </div>
+        <div>
+            <input type="submit" class="submit-btn" value="Ajouter" />
+            <button mat-raised-button [mat-dialog-close]="false" class="cancel-btn">Annuler</button>
+        </div>
+    </div>
+</form>

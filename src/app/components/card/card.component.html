@@ -1,0 +1,18 @@
+<img src={{value}} alt="" />
+<div class="overlay">
+    <div class="content">
+        <h2>Nom du plat</h2>
+        <div class="info-wrapper">
+            <div class="image-details">
+                <span>Taille:  <span class="info-card">156MB</span></span>
+                <span>Extension:  <span class="info-card">jpg</span></span>
+            </div>
+            <div>
+                <div [@fadeInOut] class="show-edit bottom" *ngIf="showVar">
+                    <app-edit></app-edit>
+                </div> 
+                <fa-icon [icon]="faEllipsis" class="icon-ellipsis" (click)="toggleEditComponent()"></fa-icon>
+            </div>
+        </div> 
+    </div>
+</div>

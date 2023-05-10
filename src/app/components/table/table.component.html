@@ -1,0 +1,18 @@
+<table class="styled-table">
+    <thead>
+        <tr>
+            <th>Image</th>
+            <th>Nom du fichier</th>
+            <th>Meta description</th>
+            <th>Tags</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr *ngFor="let item of images">
+            <td><img src={{item}}></td>
+            <td>hamburger.jpg</td>
+            <td>Two hamburgers on a wood plate</td>
+            <td>food, burger</td>
+        </tr>
+    </tbody>
+</table>
