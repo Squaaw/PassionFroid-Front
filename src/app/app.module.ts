@@ -15,13 +15,16 @@ import { TableComponent } from './components/table/table.component';
 import { GalleryComponent } from './components/gallery/gallery.component';
 import { MatDialogModule } from '@angular/material/dialog';
 import { ModalUploadComponent } from './components/modal-upload/modal-upload.component';
-import { HttpClientModule } from '@angular/common/http';
+import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { MatRadioModule } from '@angular/material/radio';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import {MatButtonModule} from '@angular/material/button';
-import { ImageService } from './services/image.service';
+import { ImageService } from './services/image/image.service';
+import { LoaderInterceptor } from './interceptors/loader.interceptor';
 import { LoginComponent } from './pages/auth/login/login.component';
 import { UploadFormComponent } from './components/form/upload-form/upload-form.component';
+import { LoaderComponent } from './components/loader/loader/loader.component';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
 @NgModule({
   declarations: [
@@ -35,7 +38,8 @@ import { UploadFormComponent } from './components/form/upload-form/upload-form.c
     GalleryComponent,
     ModalUploadComponent,
     LoginComponent,
-    UploadFormComponent
+    UploadFormComponent,
+    LoaderComponent
   ],
   imports: [
     BrowserModule,
@@ -50,9 +54,14 @@ import { UploadFormComponent } from './components/form/upload-form/upload-form.c
     FormsModule,  
     ReactiveFormsModule,
     MatButtonModule,
-    DragDropModule
+    DragDropModule,
+    MatProgressSpinnerModule
   ],
-  providers: [ImageService],
+  providers: [ImageService, {
+    provide: HTTP_INTERCEPTORS,
+    useClass: LoaderInterceptor,
+    multi: true,
+ },],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

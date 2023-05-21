@@ -3,7 +3,7 @@ import { faSearch, faChevronDown, faList, faAdd } from '@fortawesome/free-solid-
 import { MatDialog } from '@angular/material/dialog';
 import { ModalUploadComponent } from 'src/app/components/modal-upload/modal-upload.component';
 import { disableBodyScroll, enableBodyScroll, clearAllBodyScrollLocks} from 'body-scroll-lock';
-import { ImageService } from 'src/app/services/image.service';
+import { ImageService } from 'src/app/services/image/image.service';
 
 @Component({
   selector: 'app-search-filter',

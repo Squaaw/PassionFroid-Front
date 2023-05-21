@@ -5,7 +5,7 @@ import { environment } from '../../../environments/environment';
 import { DomSanitizer } from '@angular/platform-browser';
 import { MatRadioButton, MatRadioChange, MatRadioModule } from '@angular/material/radio';
 import { FormControl, FormGroup, FormsModule, NgForm, Validators } from '@angular/forms';
-import { ImageService } from 'src/app/services/image.service';
+import { ImageService } from 'src/app/services/image/image.service';
 import { faUpload, faTrash, faClose, faList, faFileArrowUp } from '@fortawesome/free-solid-svg-icons';
 
 @Component({

@@ -5,7 +5,7 @@ import { DomSanitizer } from '@angular/platform-browser';
 import { faUpload, faTrash, faClose, faList, faFileArrowUp, faPlus } from '@fortawesome/free-solid-svg-icons';
 import { ImageData, ImagesData } from 'src/app/models/image';
 
-import { ImageService } from 'src/app/services/image.service';
+import { ImageService } from 'src/app/services/image/image.service';
 
 @Component({
   selector: 'app-upload-form',
