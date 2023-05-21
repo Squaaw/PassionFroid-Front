@@ -18,13 +18,14 @@ import { ModalUploadComponent } from './components/modal-upload/modal-upload.com
 import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { MatRadioModule } from '@angular/material/radio';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import {MatButtonModule} from '@angular/material/button';
+import { MatButtonModule } from '@angular/material/button';
 import { ImageService } from './services/image/image.service';
-import { LoaderInterceptor } from './interceptors/loader.interceptor';
+import { LoaderInterceptor } from './interceptors/http/loader/loader.interceptor';
 import { LoginComponent } from './pages/auth/login/login.component';
 import { UploadFormComponent } from './components/form/upload-form/upload-form.component';
 import { LoaderComponent } from './components/loader/loader/loader.component';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { ErrorInterceptor } from './interceptors/http/error/error.interceptor';
 
 @NgModule({
   declarations: [
@@ -50,8 +51,8 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
     MatDialogModule,
     MatRadioModule,
     FormsModule,
-    MatRadioModule,  
-    FormsModule,  
+    MatRadioModule,
+    FormsModule,
     ReactiveFormsModule,
     MatButtonModule,
     DragDropModule,
@@ -61,7 +62,7 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
     provide: HTTP_INTERCEPTORS,
     useClass: LoaderInterceptor,
     multi: true,
- },],
+  },{ provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

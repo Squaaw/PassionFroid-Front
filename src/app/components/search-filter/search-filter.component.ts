@@ -2,8 +2,9 @@ import { Component, ElementRef, Input, OnDestroy, OnInit, ViewChild } from '@ang
 import { faSearch, faChevronDown, faList, faAdd } from '@fortawesome/free-solid-svg-icons';
 import { MatDialog } from '@angular/material/dialog';
 import { ModalUploadComponent } from 'src/app/components/modal-upload/modal-upload.component';
-import { disableBodyScroll, enableBodyScroll, clearAllBodyScrollLocks} from 'body-scroll-lock';
+import { disableBodyScroll, enableBodyScroll, clearAllBodyScrollLocks } from 'body-scroll-lock';
 import { ImageService } from 'src/app/services/image/image.service';
+import { ImageDataAzure } from 'src/app/models/image';
 
 @Component({
   selector: 'app-search-filter',
@@ -18,18 +19,25 @@ export class SearchFilterComponent implements OnInit, OnDestroy {
   faAdd = faAdd;
   gallery: boolean = true;
   table: boolean = false;
-  images: string[];
-  
+  images: ImageDataAzure[] = [];
+
 
   scrollTarget: ElementRef;
 
   constructor(public dialog: MatDialog, scrollTarget: ElementRef, private imageService: ImageService) {
     this.scrollTarget = scrollTarget
-    this.images = this.imageService.get();
   }
 
   ngOnInit(): void {
-    
+    this.imageService.getImages().subscribe({
+      next: (images: ImageDataAzure[]) => {
+        if (images.length > 0) {
+          this.images = images;
+        }
+      },
+      error: (e) => console.error(e),
+      complete: () => console.info('complete')
+    })
   }
 
   disableScroll() {
@@ -57,7 +65,7 @@ export class SearchFilterComponent implements OnInit, OnDestroy {
       width: '250px',
       height: '250px',
       disableClose: true,
-      data: {name: "upload"},
+      data: { name: "upload" },
       panelClass: 'custom-dialog-container'
     });
 
@@ -79,6 +87,6 @@ export class SearchFilterComponent implements OnInit, OnDestroy {
 
 
 
-  
+
 
 }
