@@ -1,0 +1,18 @@
+<table class="styled-table">
+    <thead>
+        <tr>
+            <th>Image</th>
+            <th>Nom du fichier</th>
+            <th>Meta description</th>
+            <th>Tags</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr *ngFor="let item of images">
+            <td><img src={{item.base64}}></td>
+            <td>{{item.name}}</td>
+            <td>{{item.description}}</td>
+            <td>{{item.tags}}</td>
+        </tr>
+    </tbody>
+</table>

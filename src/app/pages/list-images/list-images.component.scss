@@ -1,0 +1,14 @@
+.container{
+    display: flex;
+    flex-direction: column;
+    flex-wrap: nowrap;
+    width: 80%;
+    margin: auto;
+    font-family: 'Poppins-light';
+
+    .logo{
+        img{
+            width: 150px;
+        }
+    }
+}
