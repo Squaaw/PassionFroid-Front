@@ -30,13 +30,16 @@
                         <div class="img-container" *ngFor="let img of selectedImages;">
                             <img [src]="img.base64" [alt]="img.name" class="uploaded-img">
                             <div class="overlay-remove">
-                                <fa-icon [icon]="faTrash" (click)="clearImg(img.id)"></fa-icon>
+                                <fa-icon [icon]="faTrash" (click)="clearImgUploaded(img.id)"></fa-icon>
                             </div>
                         </div>
                     </ng-container>
                     <div class="list-img-name" *ngIf="table">
                         <div *ngFor="let fileName of selectedImages;">
-                            <p>{{fileName.name}}</p>
+                            <div>
+                                <img [src]="fileName.base64" [alt]="fileName.name">
+                                <p>{{fileName.name}}</p>
+                            </div>
                             <fa-icon [icon]="faTrash" (click)="clearImg(fileName.id)"></fa-icon>
                         </div>
                     </div>

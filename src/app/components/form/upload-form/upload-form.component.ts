@@ -157,6 +157,18 @@ export class UploadFormComponent implements OnInit {
     }
   }
 
+  clearImgUploaded(index: number) {
+   this.selectedImages.splice(index, 1)
+
+    if (this.imageInput && this.imageInput.nativeElement) {
+      this.imageInput.nativeElement.value = '';
+    }
+
+    if (this.selectedImages.length <= 0) {
+      this.loaded = false;
+    }
+  }
+
   toggleComponents(component: string) {
     console.log(this.gallery, "le composant");
 

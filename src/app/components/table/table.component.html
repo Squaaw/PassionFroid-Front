@@ -9,10 +9,10 @@
     </thead>
     <tbody>
         <tr *ngFor="let item of images">
-            <td><img src={{item}}></td>
-            <td>hamburger.jpg</td>
-            <td>Two hamburgers on a wood plate</td>
-            <td>food, burger</td>
+            <td><img src={{item.base64}}></td>
+            <td>{{item.name}}</td>
+            <td>{{item.description}}</td>
+            <td>{{item.tags}}</td>
         </tr>
     </tbody>
 </table>

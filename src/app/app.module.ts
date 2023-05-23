@@ -7,7 +7,6 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { DragDropModule } from '@angular/cdk/drag-drop';
 import { SearchFilterComponent } from './components/search-filter/search-filter.component';
 import { CardComponent } from './components/card/card.component';
-import { LeftSidebarComponent } from './components/left-sidebar/left-sidebar.component';
 import { ListImagesComponent } from './pages/list-images/list-images.component';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { EditComponent } from './components/edit/edit.component';
@@ -32,7 +31,6 @@ import { ErrorInterceptor } from './interceptors/http/error/error.interceptor';
     AppComponent,
     SearchFilterComponent,
     CardComponent,
-    LeftSidebarComponent,
     ListImagesComponent,
     EditComponent,
     TableComponent,

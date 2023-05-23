@@ -8,14 +8,15 @@ import { ImageService } from 'src/app/services/image/image.service';
 })
 export class GalleryComponent implements OnInit {
 
-  images: string[];
+  @Input() images: any;
 
-  constructor(private imageService: ImageService) {
-    this.images = this.imageService.get();
+  constructor() {
+    
+    
   }
 
   ngOnInit(): void {
-   
+    console.log(this.images, "images");
     
   }
 

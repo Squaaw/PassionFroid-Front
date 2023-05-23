@@ -1,4 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
+import { ImageDataAzure } from 'src/app/models/image';
 import { ImageService } from 'src/app/services/image/image.service';
 
 @Component({
@@ -8,10 +9,10 @@ import { ImageService } from 'src/app/services/image/image.service';
 })
 export class TableComponent implements OnInit {
 
-  images: string[];
+  @Input() images: ImageDataAzure[] = [];
 
-  constructor(private imageService: ImageService) {
-    this.images = this.imageService.get();
+  constructor() {
+   
   }
 
   ngOnInit(): void {

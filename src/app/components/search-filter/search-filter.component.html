@@ -29,9 +29,9 @@
                 <fa-icon [icon]="faAdd" class="icon-add"></fa-icon>
             </button>
         </div>
-        <app-gallery class="image-gallery" *ngIf="gallery"></app-gallery>
+        <app-gallery class="image-gallery" *ngIf="gallery" [images]="images"></app-gallery>
         <div *ngIf="table">
-            <app-table></app-table>
+            <app-table [images]="images"></app-table>
         </div>
     </main>
 </div>

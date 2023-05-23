@@ -22,7 +22,7 @@ import { ModalUploadComponent } from '../modal-upload/modal-upload.component';
 })
 export class CardComponent implements OnInit {
 
-  @Input() value?: string;
+  @Input() item: any;
   faEllipsis = faEllipsis;
   showVar: boolean = false;
 

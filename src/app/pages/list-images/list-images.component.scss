@@ -1,18 +1,14 @@
 .container{
     display: flex;
+    flex-direction: column;
     flex-wrap: nowrap;
-    width: 100%;
+    width: 80%;
+    margin: auto;
     font-family: 'Poppins-light';
-        app-left-sidebar {
-            background: white;
-            flex-basis: 25%;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
+
+    .logo{
+        img{
+            width: 150px;
         }
-          
-        app-search-filter {
-            flex-basis: 70%;
-            background-color: #F5F7FB;
-        }
+    }
 }

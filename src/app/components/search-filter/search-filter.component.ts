@@ -31,8 +31,14 @@ export class SearchFilterComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.imageService.getImages().subscribe({
       next: (images: ImageDataAzure[]) => {
+        console.log(images,"Image");
+        
         if (images.length > 0) {
           this.images = images;
+        }
+        for(let img of this.images){
+          console.log(img.name);
+          
         }
       },
       error: (e) => console.error(e),

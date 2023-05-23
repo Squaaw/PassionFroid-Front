@@ -29,8 +29,10 @@ export class ImageService {
   }
 
   add(name: string, base64: string) {
+    let userToken = JSON.parse(localStorage.getItem("user") || '{}')
+    
     return new Promise((resolve, rejects) => {
-      this.httpClient.post(this.basePathApi + '/images/create', { name: name, base64: base64 }).subscribe((data: any) => {
+      this.httpClient.post(this.basePathApi + '/images', { name: name, base64: base64 }, { headers: { 'Content-Type': 'application/json', "Authorization": `Bearer ${userToken}` } }).subscribe((data: any) => {
         if (data) {
           resolve(data);
         }
