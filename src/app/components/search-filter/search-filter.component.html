@@ -1,7 +1,7 @@
 <div class="search-filter-wrapper">
     <div class="searchbar-wrapper">
         <form action="/search">
-            <input type="search" placeholder="Rechercher un produit..." name="search">
+            <input type="search" placeholder="Rechercher un produit..." name="search" (keyup)="handleSearchImageText($event)" [(ngModel)]="searchText">
             <fa-icon [icon]="faSearch" class="icon-search"></fa-icon>
           </form>
     </div>

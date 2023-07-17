@@ -15,6 +15,7 @@ export class SearchFilterComponent implements OnInit {
   images: ImageDataAzure[] = [];
   initialImage: ImageDataAzure[] = [];
   selectedOption: string = '';
+  searchText: string = '';
 
   faSearch = faSearch;
   faChevronDown = faChevronDown;
@@ -29,9 +30,20 @@ export class SearchFilterComponent implements OnInit {
    this.imageService.selectedFormat$.subscribe((value:any) =>{
     this.selectedOption = value
    })
+
+   
   }
 
-  
+  handleSearchImageText(event: any){
+    if(event.key !== "Enter")
+      return
+    
+    const searchValue = event.target.value;
+    this.imageService.getImagesByCognitiveSearch(searchValue).subscribe((data: any) => {
+      this.imageService.imagesSubject.next(data)
+      
+    })
+  }
 
   onOptionChange() {
     if(this.selectedOption == "Vertical"){
@@ -41,8 +53,6 @@ export class SearchFilterComponent implements OnInit {
     } else {
       this.imageService.setSelectedFormat("")
     }
-    
-    
   }
   
   clearAllFilter(){

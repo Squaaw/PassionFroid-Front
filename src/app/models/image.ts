@@ -19,6 +19,7 @@ export class ImageDataAzure {
         public description: string | null = null,
         public width: number | null = null,
         public height: number | null = null,
+        public similarity: number | null = null,
         public user: number = 1
       ) {}
 }

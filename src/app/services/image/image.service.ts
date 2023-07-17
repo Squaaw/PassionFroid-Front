@@ -39,6 +39,12 @@ export class ImageService {
       });
     });
   }
+
+  getImagesByCognitiveSearch(text: string) {
+    console.log(text, "Text");
+    
+    return this.httpClient.post(this.basePathApi + '/images/search/', { search: text }, this.headers)
+  }
   
   getHttpImages(): Observable<any> {
     return this.httpClient.get(this.basePathApi + '/images', this.headers);
