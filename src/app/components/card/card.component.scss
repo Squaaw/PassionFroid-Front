@@ -1,11 +1,19 @@
+.column{
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
 .image-item {
     position: relative;
     cursor: pointer;
 }
 
 img {
-    vertical-align: middle;
     width: 100%;
+    border-radius: 5px;
+    max-height: 440px;
+    object-fit: cover;
 }
 
 :host:hover .overlay{

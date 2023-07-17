@@ -36,13 +36,8 @@ export class EditComponent implements OnInit {
     });
   }
 
-  clearImg(index: number) {
+  deleteImage(index: number) {
     if (index !== -1) {
-      //  this.selectedImages = this.selectedImages.filter((e: any) => e.id !== index);
-      //  console.log(this.selectedImages, "this selected");
-      //  console.log(this.subscription, "this sub");
-
-      //  this.imageService.setDataArray(this.selectedImages)
       this.imageService.deleteImage(index)
     }
   }

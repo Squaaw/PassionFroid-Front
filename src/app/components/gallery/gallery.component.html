@@ -1,5 +1,14 @@
-<div class="grid-container">
-    <div class="column" *ngFor="let item of images">
-        <app-card [item]="item"></app-card>
+<ng-container *ngIf="renderView.length > 0; then contenu; else noContenu"></ng-container>
+
+<ng-template #contenu>
+  <div class="container" *ngFor="let item of renderView.slice(0, 3); let i = index">
+    <div class="image-item" *ngFor="let value of renderView.slice(i * 3, i * 3 + 3)">
+      <app-card [value]="value"></app-card>
     </div>
-</div>
+  </div>
+</ng-template>
+
+<ng-template #noContenu>
+  <!-- Placeholder content or alternative display when images.length is not greater than 0 -->
+  <div>Aucune images disponible.</div>
+</ng-template>

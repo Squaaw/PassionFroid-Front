@@ -7,7 +7,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { DragDropModule } from '@angular/cdk/drag-drop';
 import { SearchFilterComponent } from './components/search-filter/search-filter.component';
 import { CardComponent } from './components/card/card.component';
-import { ListImagesComponent } from './pages/list-images/list-images.component';
+import { Home } from './pages/home/home.component';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { EditComponent } from './components/edit/edit.component';
 import { TableComponent } from './components/table/table.component';
@@ -25,13 +25,15 @@ import { UploadFormComponent } from './components/form/upload-form/upload-form.c
 import { LoaderComponent } from './components/loader/loader/loader.component';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { ErrorInterceptor } from './interceptors/http/error/error.interceptor';
+import { ListImagesComponent } from './components/list-images/list-images.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     SearchFilterComponent,
-    CardComponent,
     ListImagesComponent,
+    CardComponent,
+    Home,
     EditComponent,
     TableComponent,
     GalleryComponent,

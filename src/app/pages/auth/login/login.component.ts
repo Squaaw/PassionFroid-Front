@@ -29,7 +29,7 @@ export class LoginComponent implements OnInit {
                 this._loginService.isConnected.next(true);
               },
               error: (e) => this.errors = e,
-              complete: () => this.router.navigate(['/list-images'])
+              complete: () => this.router.navigate(['/home'])
           })
       //   (data: any) => {
 

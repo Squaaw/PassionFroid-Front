@@ -3,6 +3,9 @@ import { faEllipsis } from '@fortawesome/free-solid-svg-icons';
 import { trigger, transition, style, animate } from '@angular/animations';
 import { MatDialog } from '@angular/material/dialog';
 import { ModalUploadComponent } from '../modal-upload/modal-upload.component';
+import { ImageService } from 'src/app/services/image/image.service';
+import { BehaviorSubject } from 'rxjs';
+import { ImageDataAzure } from 'src/app/models/image';
 
 @Component({
   selector: 'app-card',
@@ -22,17 +25,23 @@ import { ModalUploadComponent } from '../modal-upload/modal-upload.component';
 })
 export class CardComponent implements OnInit {
 
-  @Input() item: any;
+  @Input() value: any;
   faEllipsis = faEllipsis;
   showVar: boolean = false;
+
 
   toggleEditComponent(){
       this.showVar = !this.showVar;
   }
   
-  constructor() { }
+  constructor() {
+
+    
+  }
   
-  ngOnInit(): void { }
+  ngOnInit(): void {
+
+  }
 
  
 

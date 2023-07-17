@@ -1,14 +1,14 @@
-<img src={{item.base64}} alt="" />
+<img src={{value.base64}} alt="" />
 <div class="overlay">
     <div class="content">
-        <h2>{{item.name}}</h2>
+        <h2>{{value.name}}</h2>
         <div class="info-wrapper">
             <div class="image-details">
-                <span class="info-card">Contenu de l'image</span><span class="tag-list">{{item.tags}}</span>
+                <span class="info-card">Contenu de l'image</span><span class="tag-list">{{value.tags}}</span>
             </div>
             <div>
                 <div [@fadeInOut] class="show-edit bottom" *ngIf="showVar">
-                    <app-edit [index]="item.id"></app-edit>
+                    <app-edit [index]="value.id"></app-edit>
                 </div> 
                 <fa-icon [icon]="faEllipsis" class="icon-ellipsis" (click)="toggleEditComponent()"></fa-icon>
             </div>

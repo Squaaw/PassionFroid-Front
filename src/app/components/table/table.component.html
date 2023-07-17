@@ -1,3 +1,5 @@
+<ng-container *ngIf="images.length > 0; then contenu; else noContenu"></ng-container>
+<ng-template #contenu>
 <table class="styled-table">
     <thead>
         <tr>
@@ -16,3 +18,8 @@
         </tr>
     </tbody>
 </table>
+</ng-template>
+<ng-template #noContenu>
+  <!-- Placeholder content or alternative display when images.length is not greater than 0 -->
+  <div>Aucune images disponible.</div>
+</ng-template>
