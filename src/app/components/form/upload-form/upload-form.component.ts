@@ -19,6 +19,7 @@ export class UploadFormComponent implements OnInit, OnChanges {
   @ViewChild('imageInput', { static: false }) imageInput!: ElementRef;
   selectedImages: ImageDataAzure[] = [];
   images: ImageDataAzure[] = [];
+  imagesInitial: ImageDataAzure[] = [];
   imagesHorizontal: ImageDataAzure[] = [];
   imagesVertical: ImageDataAzure[] = [];
   allFileNames: string[] = [];
@@ -53,6 +54,7 @@ export class UploadFormComponent implements OnInit, OnChanges {
 
   ngOnInit(): void {
     this.images = this.imageService.imagesSubject.getValue();
+    this.imagesInitial = this.imageService.imagesInitialSubject.getValue();
     this.imagesVertical = this.imageService.imagesVerticalSubject.getValue();
     this.imagesHorizontal = this.imageService.imagesHorizontalSubject.getValue();
   }
@@ -189,7 +191,19 @@ export class UploadFormComponent implements OnInit, OnChanges {
         this.imageService.add(image.name, image.base64, this.width, this.height)
         .then((data: any) => {
          this.imageService.selectedFormatSubject.next("")
+         this.imageService.getHttpImages().subscribe(
+          {
+            next: (v) => {
+              this.imageService.imagesInitialSubject.next(v)
+              this.imageService.imagesSubject.next(v)
+              
+            },
+            error: (e) => console.log(e),
+            complete: () => {}
         })
+          
+         })
+        
         .catch((err) => { console.log(err, "err"); });
       } catch (err) {
         console.log(err, "err");

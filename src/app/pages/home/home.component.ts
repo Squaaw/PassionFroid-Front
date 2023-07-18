@@ -28,19 +28,12 @@ export class Home implements OnInit {
       
       for(let image of images){
        // this.imageService.setFormatImage(image)
-        if (image.width != null && image.height != null) {
-          if(image.width > image.height){
-            this.imagesVertical.push(image)
-              //this.imageService.setImagesHorizontal(image); // Share imagesHorizontal
-          } else {
-            this.imagesHorizontal.push(image); // Share imagesHorizontal
-          }
-          }
+       this.imageService.setOrientationImages(image, image.width, image.height)
       }
 
       this.imageService.imagesSubject.next(images)
-      this.imageService.imagesVerticalSubject.next(this.imagesVertical)
-      this.imageService.imagesHorizontalSubject.next(this.imagesHorizontal)
+      this.imageService.imagesInitialSubject.next(images)
+
 
     })
 

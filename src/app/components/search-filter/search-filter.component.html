@@ -1,22 +1,27 @@
 <div class="search-filter-wrapper">
-    <div class="searchbar-wrapper">
-        <form action="/search">
+    <form (ngSubmit)="onSubmit(searchForm)" #searchForm="ngForm">
+        <div class="searchbar-wrapper">
             <input type="search" placeholder="Rechercher un produit..." name="search" (keyup)="handleSearchImageText($event)" [(ngModel)]="searchText">
             <fa-icon [icon]="faSearch" class="icon-search"></fa-icon>
-          </form>
-    </div>
-    <div class="filter-wrapper">
-        <button (click)="clearAllFilter()">Clear</button>
-        <select>
-            <option selected>Catégorie <fa-icon [icon]="faChevronDown" class="icon-chevron"></fa-icon></option>
-        </select>
-        <select><option>Type <fa-icon [icon]="faChevronDown" class="icon-chevron"></fa-icon></option></select>
-        <select [(ngModel)]="selectedOption" (change)="onOptionChange()">
-            <option value="" disabled selected hidden>Select a format <fa-icon [icon]="faChevronDown" class="icon-chevron"></fa-icon></option>
-            
-            <option>Vertical</option>
-            <option>Horizontal</option>
-        </select>
-        <select><option>Cible <fa-icon [icon]="faChevronDown" class="icon-chevron"></fa-icon></option></select>
-    </div>
+        </div>
+        <div class="filter-wrapper">
+            <button (click)="clearAllFilter()">Clear</button>
+            <select>
+                <option selected>Catégorie <fa-icon [icon]="faChevronDown" class="icon-chevron"></fa-icon></option>
+            </select>
+            <select><option>Type <fa-icon [icon]="faChevronDown" class="icon-chevron"></fa-icon></option></select>
+            <select [(ngModel)]="selectedOption" name="selectedOption" (change)="onOptionChange()">
+                <option value="" disabled selected hidden>Selectionne un format <fa-icon [icon]="faChevronDown" class="icon-chevron"></fa-icon></option>
+                <option>Vertical</option>
+                <option>Horizontal</option>
+            </select>
+            <select><option>Cible <fa-icon [icon]="faChevronDown" class="icon-chevron"></fa-icon></option></select>
+            <select name="filter" [(ngModel)]="filter" (change)="onOptionChangeAccuracy()">
+                <option value="" disabled selected hidden>Définir la précision <fa-icon [icon]="faChevronDown" class="icon-chevron"></fa-icon></option>
+                <option value="high">Précision élevée</option>
+                <option value="low">Précision faible</option>
+            </select>
+        </div>
+        <button type="submit">Search</button>
+    </form>
 </div>
