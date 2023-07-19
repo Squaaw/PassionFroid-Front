@@ -3,6 +3,11 @@
     flex-direction: column;
     gap: 10px;
 }
+.image-grid-container{
+    position: relative;
+    display: inline-block;
+    margin: 5px;
+}
 
 .image-item {
     position: relative;
@@ -10,9 +15,19 @@
 }
 
 img {
-    width: 100%;
-    border-radius: 5px;
-    max-height: 440px;
+    border-radius: 0.25rem;
+    object-fit: cover;
+    margin: 0!important;
+}
+
+.vertical-image{
+    width: 400px!important;
+    height: 510px!important;
+    object-fit: cover;
+}
+.horizontal-image{
+    width: 400px!important;
+    height: 250px!important;
     object-fit: cover;
 }
 

@@ -55,8 +55,6 @@ export class UploadFormComponent implements OnInit, OnChanges {
   ngOnInit(): void {
     this.images = this.imageService.imagesSubject.getValue();
     this.imagesInitial = this.imageService.imagesInitialSubject.getValue();
-    this.imagesVertical = this.imageService.imagesVerticalSubject.getValue();
-    this.imagesHorizontal = this.imageService.imagesHorizontalSubject.getValue();
   }
   
   ngOnChanges(changes: SimpleChanges){
@@ -153,9 +151,10 @@ export class UploadFormComponent implements OnInit, OnChanges {
   }
 
   async onFormSubmit(form: NgForm) {
+    let imageLoadPromise
     for (let image of this.selectedImages) {
       try {
-        const imageLoadPromise = new Promise<void>((resolve, reject) => {
+        imageLoadPromise = new Promise<void>((resolve, reject) => {
           const img = new Image();
           img.src = image.base64;
           img.addEventListener('load', () => {
@@ -167,47 +166,33 @@ export class UploadFormComponent implements OnInit, OnChanges {
             reject(new Error('Failed to load image')); // Reject the Promise if image loading fails
           });
         });
-
-        // Wait for the image loading Promise to resolve
-        await imageLoadPromise;
-      
-        const stringBase64 = image.base64.split(",")[1];
-
-        if (this.width != null && this.height != null) {
-          if (this.width > this.height) {
-            this.imagesVertical.push(image);
-          } else if (this.width < this.height) {
-            this.imagesHorizontal.push(image);
-          } else if (this.width === this.height) {
-            this.imagesVertical.push(image);
-          }
-          
-          this.imageService.setImagesVertical(this.imagesVertical);
-          this.imageService.setImagesHorizontal(this.imagesHorizontal);
-          this.images.push(image)
-          this.imageService.setImages(this.images);
-          
-        }
-        this.imageService.add(image.name, image.base64, this.width, this.height)
-        .then((data: any) => {
-         this.imageService.selectedFormatSubject.next("")
-         this.imageService.getHttpImages().subscribe(
-          {
-            next: (v) => {
-              this.imageService.imagesInitialSubject.next(v)
-              this.imageService.imagesSubject.next(v)
-              
-            },
-            error: (e) => console.log(e),
-            complete: () => {}
-        })
-          
-         })
-        
-        .catch((err) => { console.log(err, "err"); });
       } catch (err) {
         console.log(err, "err");
       }
+        // Wait for the image loading Promise to resolve
+        await imageLoadPromise;
+        
+        this.imageService.add(image.name, image.base64, this.width, this.height).subscribe(
+          {
+            next: (data: any) => {
+              this.imageService.getHttpImages().subscribe(
+               {
+                 next: (images: ImageDataAzure[]) => {
+                   this.imageService.imagesInitialSubject.next(images)
+                   this.imageService.imagesSubject.next(images)
+                   
+                 },
+                 error: (e) => console.log(e),
+                 complete: () => {}
+                }
+              )
+            },
+            error: (e) => console.log(e),
+            complete: () => {}
+          
+         })
+        
+      
     }
     this.closeModal();
   }

@@ -1,17 +1,19 @@
-<img src={{value.base64}} alt="" />
-<div class="overlay">
-    <div class="content">
-        <h2>{{value.name}}</h2>
-        <div class="info-wrapper">
-            <div class="image-details">
-                <span class="info-card">Contenu de l'image</span><span class="tag-list">{{value.tags}}</span>
-            </div>
-            <div>
-                <div [@fadeInOut] class="show-edit bottom" *ngIf="showVar">
-                    <app-edit [index]="value.id"></app-edit>
-                </div> 
-                <fa-icon [icon]="faEllipsis" class="icon-ellipsis" (click)="toggleEditComponent()"></fa-icon>
-            </div>
-        </div> 
+<div class="image-grid-container">
+    <img src={{value.base64}} alt="" [ngStyle]="{'height.px': value.width, 'width.px': value.height, 'margin': '5px'}" [ngClass]="getImageClass(value.width, value.height)" />
+    <div class="overlay">
+        <div class="content">
+            <h2>{{value.name}}</h2>
+            <div class="info-wrapper">
+                <div class="image-details">
+                    <span class="info-card">Contenu de l'image</span><span class="tag-list">{{value.tags}}</span>
+                </div>
+                <div>
+                    <div [@fadeInOut] class="show-edit bottom" *ngIf="showVar">
+                        <app-edit [index]="value.id"></app-edit>
+                    </div> 
+                    <fa-icon [icon]="faEllipsis" class="icon-ellipsis" (click)="toggleEditComponent()"></fa-icon>
+                </div>
+            </div> 
+        </div>
     </div>
 </div>

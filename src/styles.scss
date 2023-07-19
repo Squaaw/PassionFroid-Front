@@ -6,6 +6,8 @@
    v2.0 | 20110126
    License: none (public domain)
 */
+@import "~bootstrap/dist/css/bootstrap.css";
+@import '~bootstrap/scss/bootstrap';
 
 @font-face {
 	font-family: "Poppins-light";
@@ -41,7 +43,7 @@ footer, header, hgroup, menu, nav, section {
 }
 body {
 	line-height: 1;
-	font-family: 'Poppins-Light'
+	font-family: 'Poppins-Light';
 }
 ol, ul {
 	list-style: none;
@@ -91,4 +93,24 @@ table {
 	.icon-list:hover{
 		background-color: #E3E3E3;
 	}
+}
+
+$container-max-widths: (
+  sm: 540px,
+  md: 720px,
+  lg: 960px,
+  xl: 1340px
+);
+
+@each $breakpoint,
+$container-max-width in $container-max-widths {
+  .container-#{$breakpoint} {
+    @extend .container-fluid;
+  }
+  
+  @include media-breakpoint-up($breakpoint, $grid-breakpoints) {
+    %responsive-container-#{$breakpoint} {
+      max-width: $container-max-width;
+    }
+  }
 }

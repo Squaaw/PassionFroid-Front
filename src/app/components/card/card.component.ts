@@ -28,11 +28,6 @@ export class CardComponent implements OnInit {
   @Input() value: any;
   faEllipsis = faEllipsis;
   showVar: boolean = false;
-
-
-  toggleEditComponent(){
-      this.showVar = !this.showVar;
-  }
   
   constructor() {
 
@@ -41,6 +36,18 @@ export class CardComponent implements OnInit {
   
   ngOnInit(): void {
 
+  }
+
+  toggleEditComponent(){
+    this.showVar = !this.showVar;
+}
+
+  getImageClass(width: number, height: number): string {
+    if (width > height) {
+      return 'horizontal-image';
+    } else {
+      return 'vertical-image';
+    }
   }
 
  

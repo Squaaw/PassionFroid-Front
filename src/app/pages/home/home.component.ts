@@ -23,18 +23,15 @@ export class Home implements OnInit {
   }
   
   private loadImages(){
-    return this.imageService.getHttpImages().subscribe((images: ImageDataAzure[]) =>{
-      this.images = images
-      
-      for(let image of images){
-       // this.imageService.setFormatImage(image)
-       this.imageService.setOrientationImages(image, image.width, image.height)
-      }
-
-      this.imageService.imagesSubject.next(images)
-      this.imageService.imagesInitialSubject.next(images)
-
-
+    return this.imageService.getHttpImages().subscribe({
+      next: (v) => {
+        this.images = v
+        this.imageService.imagesSubject.next(v)
+        this.imageService.imagesInitialSubject.next(v)
+        
+      },
+      error: (e) => console.log(e),
+      complete: () => {}
     })
 
   }

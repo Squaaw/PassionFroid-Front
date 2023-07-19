@@ -1,4 +1,4 @@
-import { Component, ElementRef, OnInit } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, OnInit } from '@angular/core';
 import { faSearch, faChevronDown } from '@fortawesome/free-solid-svg-icons';
 import { MatDialog } from '@angular/material/dialog';
 import { ImageService } from 'src/app/services/image/image.service';
@@ -11,10 +11,7 @@ import { NgForm } from '@angular/forms';
   styleUrls: ['./search-filter.component.scss']
 })
 export class SearchFilterComponent implements OnInit {
-  imagesVertical: ImageDataAzure[] = [];
-  imagesHorizontal: ImageDataAzure[] = [];
   images: ImageDataAzure[] = [];
-  imagesInitial: ImageDataAzure[] = [];
   imagesFiltered: ImageDataAzure[] = [];
   imagesSearch: ImageDataAzure[] = [];
   initialImages: ImageDataAzure[] = [];
@@ -31,23 +28,41 @@ export class SearchFilterComponent implements OnInit {
   }
 
   ngOnInit(): void {
-   this.imageService.selectedFormat$.subscribe((value:any) =>{
-    this.selectedOption = value
-   })
-
-   this.imageService.imagesInitial$.subscribe((value) => this.initialImages = value)
    this.imageService.images$.subscribe((value) => this.images = value)
-   
-   this.imageService.imagesHorizontal$.subscribe((value) => this.imagesHorizontal = value)
-   this.imageService.imagesVertical$.subscribe((value) => this.imagesVertical = value) 
-   
-   
+   this.imageService.imagesInitial$.subscribe((value) => this.initialImages = value) 
   }
 
+
   onSubmit(form: NgForm) {
-    console.log(this.filter);
-    
-    const queryParams = `filter=${this.filter}`;
+
+  }
+
+  handleFilterImages(){
+    let imagesArray = []
+    if(this.imagesSearch.length > 0){
+      imagesArray = this.imagesSearch
+    } else {
+      imagesArray = this.initialImages
+    }
+
+    this.imagesFiltered = imagesArray.filter((image) => {
+      if(image.width && image.height){
+        if(this.selectedOption == "Vertical")
+          return image.width < image.height
+        else
+          return image.width > image.height
+      }
+       return image
+    })
+
+    this.imagesFiltered = this.imagesFiltered.filter((image) => {
+      if(image.similarity && this.filter !== ""){
+        if(this.filter == "high"){
+          return image.similarity >= 30
+        } 
+      }
+      return image
+    })
   }
 
   handleSearchImageText(event: any){
@@ -57,31 +72,14 @@ export class SearchFilterComponent implements OnInit {
     const searchValue = event.target.value;
     
     this.imageService.getImagesByCognitiveSearch(searchValue).subscribe((data: any) => {
-      this.imageService.imagesSubject.next(data)
-      if(this.filter !== ""){
-        if(this.filter == "how"){
-          if(data.similarity >= 30){
-            this.imageService.imagesSubject.next(data)
-          }
-        } else {
-          this.imageService.imagesSubject.next(data)
-        }
-      }
-      
-      this.imageService.setOrientationImages(data, data.width, data.height)
-      
-      this.imagesSearch = data;
-            
-      //this.imageService.imagesSubject.next(data)
+      this.imagesSearch = data
+      this.handleFilterImages()
+      this.imageService.imagesSubject.next(this.imagesFiltered)
     })
   }
 
   onOptionChangeAccuracy(){
- 
-    // console.log(this.images, 'images');
-    
-    
-
+    if(this.imagesSearch.length > 0)
       if(this.filter == "high"){
         this.imagesFiltered = this.imagesSearch.filter((imageData: any) => {
             return imageData.similarity >= 30
@@ -89,33 +87,17 @@ export class SearchFilterComponent implements OnInit {
           this.imageService.imagesSubject.next(this.imagesFiltered)
       } else {
         this.imageService.imagesSubject.next(this.imagesSearch)
-
       }
-
-      
-        
-    
-    
-
   }
 
-  onOptionChange() {
-    
-    if(this.selectedOption == "Vertical"){
-      this.imageService.setSelectedFormat(this.selectedOption)
-    } else if(this.selectedOption == "Horizontal"){
-      this.imageService.setSelectedFormat(this.selectedOption)
-    } else {
-      this.imageService.setSelectedFormat("")
-    }
-    console.log(this.selectedOption, "this.selectedOption");
+  onOptionChangeOrientation() {
+    this.handleFilterImages()
+    this.imageService.imagesSubject.next(this.imagesFiltered)
   }
   
   clearAllFilter(){
-    console.log(this.imageService.imagesInitialSubject.getValue(), 'initial');
-    console.log(this.images, 'images');
-    this.selectedOption = ""
-    this.imageService.setSelectedFormat(this.selectedOption)
+    //this.selectedOption = ""
+    
     this.imageService.imagesSubject.next(this.imageService.imagesInitialSubject.getValue())
     
     

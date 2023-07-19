@@ -5,23 +5,22 @@
             <fa-icon [icon]="faSearch" class="icon-search"></fa-icon>
         </div>
         <div class="filter-wrapper">
-            <button (click)="clearAllFilter()">Clear</button>
-            <select>
+            <button class="btn btn-info" (click)="clearAllFilter()">Clear</button>
+            <select class="form-select form-select-lg mb-3" aria-label=".form-select-lg example">
                 <option selected>Catégorie <fa-icon [icon]="faChevronDown" class="icon-chevron"></fa-icon></option>
             </select>
-            <select><option>Type <fa-icon [icon]="faChevronDown" class="icon-chevron"></fa-icon></option></select>
-            <select [(ngModel)]="selectedOption" name="selectedOption" (change)="onOptionChange()">
+            <select class="form-select form-select-lg mb-3" aria-label=".form-select-lg example"><option>Type <fa-icon [icon]="faChevronDown" class="icon-chevron"></fa-icon></option></select>
+            <select class="form-select form-select-lg mb-3" aria-label=".form-select-lg example" [(ngModel)]="selectedOption" name="selectedOption" (change)="onOptionChangeOrientation()">
                 <option value="" disabled selected hidden>Selectionne un format <fa-icon [icon]="faChevronDown" class="icon-chevron"></fa-icon></option>
                 <option>Vertical</option>
                 <option>Horizontal</option>
             </select>
-            <select><option>Cible <fa-icon [icon]="faChevronDown" class="icon-chevron"></fa-icon></option></select>
-            <select name="filter" [(ngModel)]="filter" (change)="onOptionChangeAccuracy()">
+            <select class="form-select form-select-lg mb-3" aria-label=".form-select-lg example"><option>Cible <fa-icon [icon]="faChevronDown" class="icon-chevron"></fa-icon></option></select>
+            <select class="form-select form-select-lg mb-3" aria-label=".form-select-lg example" name="filter" [(ngModel)]="filter" (change)="onOptionChangeAccuracy()">
                 <option value="" disabled selected hidden>Définir la précision <fa-icon [icon]="faChevronDown" class="icon-chevron"></fa-icon></option>
                 <option value="high">Précision élevée</option>
                 <option value="low">Précision faible</option>
             </select>
         </div>
-        <button type="submit">Search</button>
     </form>
 </div>

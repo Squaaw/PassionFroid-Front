@@ -1,11 +1,20 @@
 <ng-container *ngIf="renderView.length > 0; then contenu; else noContenu"></ng-container>
 
 <ng-template #contenu>
-  <div class="container" *ngFor="let item of renderView.slice(0, 3); let i = index">
-    <div class="image-item" *ngFor="let value of renderView.slice(i * 3, i * 3 + 3)">
-      <app-card [value]="value"></app-card>
-    </div>
+  
+  <div class="row content">
+    <ng-container *ngIf="httpErrorMessage.length > 0;"><div  class="alert alert-danger alert-dismissible fade show" type="danger" dismissOnTimeout="5000" role="alert">{{httpErrorMessage}}</div></ng-container>
+    <ng-container *ngFor="let column of splitRenderViewIntoColumns(renderView, 3)">
+      <div class="col-lg-4 col-md-2 mb-lg-0">
+        <div class="row">
+          <div class="padding-reset" *ngFor="let item of column">
+            <app-card [value]="item"></app-card>
+          </div>
+        </div>
+      </div>
+    </ng-container>
   </div>
+
 </ng-template>
 
 <ng-template #noContenu>

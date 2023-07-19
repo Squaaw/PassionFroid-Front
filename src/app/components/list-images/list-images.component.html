@@ -5,15 +5,17 @@
             <img src="assets/icon/grid.png" alt="icone grid" (click)="toggleViewImages('gallery')" class="icon-list" [ngStyle]="{'background-color': gallery ? '#E3E3E3' : 'inherit'}">
             <fa-icon [icon]="faList" class="icon-list" (click)="toggleViewImages('table')" class="icon-list" [ngStyle]="{'background-color': table ? '#E3E3E3' : 'inherit'}"></fa-icon>
         </div>
-        <button (click)="openDialog()">
+        <button class="btn btn-secondary" (click)="openDialog()">
             Ajouter
             <fa-icon [icon]="faAdd" class="icon-add"></fa-icon>
         </button>
     </div>
-    <app-gallery
-        class="image-gallery" 
-        *ngIf="gallery" 
-    ></app-gallery>
+    <div class="container-fluid  aligns-items-center padding-reset">
+        <app-gallery
+            class="row justify-content-around mb-3"
+            *ngIf="gallery" 
+        ></app-gallery>
+    </div>
     <div *ngIf="table">
         <app-table></app-table>
     </div>

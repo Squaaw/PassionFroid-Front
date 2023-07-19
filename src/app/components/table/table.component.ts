@@ -17,22 +17,12 @@ export class TableComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.imageService.selectedFormat$.subscribe((value) => {
-      if (value === "Vertical") {
-        this.imageService.imagesVertical$.subscribe((value) => {
-          this.renderView = value;
-        });
-      } else if (value === "Horizontal") {
-        this.imageService.imagesHorizontal$.subscribe((value) => {
-          this.renderView = value;
-        });
-      } else {
-        
-        this.imageService.images$.subscribe((value) => {
-          this.renderView = value;
-        });
-      }
-    });
+    
+       
+      this.imageService.images$.subscribe((value) => {
+        this.renderView = value;
+      });
+   
   
     
   }

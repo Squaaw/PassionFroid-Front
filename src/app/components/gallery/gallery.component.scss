@@ -7,3 +7,14 @@
 .image-item{
   position: relative;
 }
+
+.padding-reset{
+  padding: 0!important;
+  display: inline-block;
+  object-fit: cover;
+}
+
+app-card{
+  display: inline-block;
+  object-fit: cover;
+}
