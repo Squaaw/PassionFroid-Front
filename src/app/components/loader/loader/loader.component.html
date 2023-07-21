@@ -1,4 +1,5 @@
-<div *ngIf="isLoading | async" class="overlay">
-    <mat-progress-spinner class="spinner" mode="indeterminate">
-    </mat-progress-spinner>
+<div *ngIf="isLoading | async" class="overlay d-flex justify-content-center align-items-center">
+    <span>Récupération des images...</span>
+    <div class="spinner-border text-light mx-3" role="status">
+    </div>
 </div>

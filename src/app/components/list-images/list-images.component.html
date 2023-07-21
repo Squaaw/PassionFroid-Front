@@ -1,19 +1,27 @@
 <main class="list-images-wrapper">
-    <div class="header-list-wrapper">
-        <p>Liste des images</p>
+    <div class="header-list-wrapper d-flex justify-content-evenly align-items-center">
         <div class="filter-list">
+            <div class="filter-icon" (click)="toggleFiltres()">
+                <button class="btn btn-default">
+                    Filtres
+                    <svg xmlns="http://www.w3.org/2000/svg" width="30" height="50" fill="currentColor" class="bi bi-filter" viewBox="0 0 16 16">
+                        <path d="M6 10.5a.5.5 0 0 1 .5-.5h3a.5.5 0 0 1 0 1h-3a.5.5 0 0 1-.5-.5zm-2-3a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7a.5.5 0 0 1-.5-.5zm-2-3a.5.5 0 0 1 .5-.5h11a.5.5 0 0 1 0 1h-11a.5.5 0 0 1-.5-.5z"/>
+                    </svg>
+                </button>
+            </div>
             <img src="assets/icon/grid.png" alt="icone grid" (click)="toggleViewImages('gallery')" class="icon-list" [ngStyle]="{'background-color': gallery ? '#E3E3E3' : 'inherit'}">
             <fa-icon [icon]="faList" class="icon-list" (click)="toggleViewImages('table')" class="icon-list" [ngStyle]="{'background-color': table ? '#E3E3E3' : 'inherit'}"></fa-icon>
         </div>
+        <p *ngIf="imagesFiltered.length > 0" class="mb-0">Images trouvées: <span class="fw-bold">{{imagesFiltered.length}}</span></p>
         <button class="btn btn-secondary" (click)="openDialog()">
             Ajouter
             <fa-icon [icon]="faAdd" class="icon-add"></fa-icon>
         </button>
     </div>
-    <div class="container-fluid  aligns-items-center padding-reset">
+    <h1 class="text-center my-5">Gallery d'images</h1>
+    <div class="container-fluid aligns-items-center padding-reset" *ngIf="gallery">
         <app-gallery
-            class="row justify-content-around mb-3"
-            *ngIf="gallery" 
+            class="row justify-content-around mb-3" 
         ></app-gallery>
     </div>
     <div *ngIf="table">

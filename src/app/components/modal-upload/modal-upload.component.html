@@ -1,8 +1,19 @@
 <div class="dialog">
     <div class="content-modal">
-        <fa-icon mat-raised-button [mat-dialog-close]="false" [icon]="faClose" class="close-btn"></fa-icon>
+        <fa-icon mat-raised-button [mat-dialog-close]="false" [icon]="faClose" class="close-btn" (click)="onDialogClose(false)"></fa-icon>
         <ng-container *ngIf="data.name === 'upload'; else editModal">
             <h2 mat-dialog-title>Charger une image depuis {{titleModal}} </h2>
+            <ng-container *ngIf="httpErrorMessage.length > 0;">
+                <div 
+                  [@fade]="showAlert"
+                  *ngIf="showAlert"
+                  class="alert alert-danger alert-dismissible fade show" 
+                  type="danger" 
+                  dismissOnTimeout="5000" 
+                  role="alert">
+                  {{httpErrorMessage}}
+                </div>
+              </ng-container>
             <app-upload-form></app-upload-form>
             
             

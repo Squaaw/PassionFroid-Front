@@ -5,17 +5,31 @@ import { ModalUploadComponent } from 'src/app/components/modal-upload/modal-uplo
 import { disableBodyScroll, enableBodyScroll, clearAllBodyScrollLocks } from 'body-scroll-lock';
 import { ImageService } from 'src/app/services/image/image.service';
 import { ImageDataAzure } from 'src/app/models/image';
+import { SearchFilterService } from 'src/app/services/search-filter/search-filter.service';
+import { animate, state, style, transition, trigger } from '@angular/animations';
+import { TagsService } from 'src/app/services/tags/tags.service';
 
 @Component({
   selector: 'app-list-images',
   templateUrl: './list-images.component.html',
-  styleUrls: ['./list-images.component.scss']
+  styleUrls: ['./list-images.component.scss'],
+  animations: [
+    trigger('slideInOut', [
+      state('in', style({
+        transform: 'translateX(0)',
+      })),
+      state('out', style({
+        transform: 'translateX(100%)',
+      })),
+      transition('in => out', animate('800ms ease-out')),
+      transition('out => in', animate('800ms ease-in')),
+    ]),
+  ],
 })
 export class ListImagesComponent implements OnInit, OnDestroy {
 
-  imagesVertical: ImageDataAzure[] = [];
-  imagesHorizontal: ImageDataAzure[] = [];
   images: ImageDataAzure[] = [];
+  imagesFiltered: ImageDataAzure[] = [];
 
   faSearch = faSearch;
   faChevronDown = faChevronDown;
@@ -24,15 +38,26 @@ export class ListImagesComponent implements OnInit, OnDestroy {
   gallery: boolean = true;
   table: boolean = false;
   scrollTarget: ElementRef;
+  isFiltresVisible: boolean = true;
 
-  constructor(public dialog: MatDialog, scrollTarget: ElementRef, private imageService: ImageService) {
+  constructor(
+    public dialog: MatDialog, 
+    scrollTarget: ElementRef, 
+    private imageService: ImageService, 
+    private searchFilterService: SearchFilterService,
+    private tagsService: TagsService
+    ) {
     this.scrollTarget = scrollTarget
   }
 
+  toggleFiltres(): void {
+    this.isFiltresVisible = !this.isFiltresVisible;
+    this.searchFilterService.setFiltresVisible(this.isFiltresVisible)
+  }
+
   ngOnInit(): void {
-   // this.imageService.images$.subscribe((value) => this.images = value)
-   // this.imageService.imagesHorizontal$.subscribe((value) => this.imagesHorizontal = value)
-    //this.imageService.imagesVertical$.subscribe((value) => this.imagesVertical = value) 
+    this.searchFilterService.isFiltresVisible$.subscribe((value) => this.isFiltresVisible = value)
+    this.searchFilterService.imageFiltered$.subscribe((value) => this.imagesFiltered = value)
   }
 
   disableScroll() {

@@ -1,11 +1,11 @@
 <div class="image-grid-container">
-    <img src={{value.base64}} alt="" [ngStyle]="{'height.px': value.width, 'width.px': value.height, 'margin': '5px'}" [ngClass]="getImageClass(value.width, value.height)" />
+    <img src={{value.base64}} alt="" class="img-fluid" [ngStyle]="{'height.px': value.width, 'width.px': value.height, 'margin': '5px'}" [ngClass]="getImageClass(value.width, value.height)" />
     <div class="overlay">
         <div class="content">
             <h2>{{value.name}}</h2>
             <div class="info-wrapper">
                 <div class="image-details">
-                    <span class="info-card">Contenu de l'image</span><span class="tag-list">{{value.tags}}</span>
+                    <span class="info-card">Contenu de l'image</span><span class="tag-list">tags</span>
                 </div>
                 <div>
                     <div [@fadeInOut] class="show-edit bottom" *ngIf="showVar">

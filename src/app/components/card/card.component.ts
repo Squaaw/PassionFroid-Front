@@ -40,7 +40,7 @@ export class CardComponent implements OnInit {
 
   toggleEditComponent(){
     this.showVar = !this.showVar;
-}
+  }
 
   getImageClass(width: number, height: number): string {
     if (width > height) {
@@ -49,7 +49,4 @@ export class CardComponent implements OnInit {
       return 'vertical-image';
     }
   }
-
- 
-
 }

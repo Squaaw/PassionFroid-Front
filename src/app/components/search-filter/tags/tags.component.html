@@ -1,0 +1,13 @@
+
+<tag-input (keyup)="handleSearchImageTags($event)"  [(ngModel)]="selectedTag"
+    [onlyFromAutocomplete]="true">
+    <tag-input-dropdown [showDropdownIfEmpty]="true"
+                [focusFirstElement]="true"
+                [displayBy]="'value'"
+                [identifyBy]="'id'"
+                [autocompleteItems]="autocompleteItemsAsObjects">
+        <ng-template let-item="item" >
+            {{ item.value }}
+        </ng-template>
+    </tag-input-dropdown>
+</tag-input>

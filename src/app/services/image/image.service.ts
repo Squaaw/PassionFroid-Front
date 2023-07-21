@@ -16,8 +16,6 @@ export class ImageService {
   
   imagesInitialSubject = new BehaviorSubject<ImageDataAzure[]>([]);
   imagesSubject = new BehaviorSubject<ImageDataAzure[]>([]);
-  errorHttpMessageSubject = new BehaviorSubject<string>("");
-  errorHttpMessage$ = this.errorHttpMessageSubject.asObservable();
  
   imagesInitial$ = this.imagesInitialSubject.asObservable();
   images$ = this.imagesSubject.asObservable();

@@ -20,8 +20,6 @@ export class UploadFormComponent implements OnInit, OnChanges {
   selectedImages: ImageDataAzure[] = [];
   images: ImageDataAzure[] = [];
   imagesInitial: ImageDataAzure[] = [];
-  imagesHorizontal: ImageDataAzure[] = [];
-  imagesVertical: ImageDataAzure[] = [];
   allFileNames: string[] = [];
   fileName = '';
   loaded = false;
@@ -44,6 +42,7 @@ export class UploadFormComponent implements OnInit, OnChanges {
   height = 0;
   width = 0;
   maxIDImage = 0;
+  httpMessageSuccess: string = ""
 
   constructor(
     private http: HttpClient,
@@ -175,14 +174,18 @@ export class UploadFormComponent implements OnInit, OnChanges {
         this.imageService.add(image.name, image.base64, this.width, this.height).subscribe(
           {
             next: (data: any) => {
+              console.log(data, "data");
+              this.httpMessageSuccess = "Les"
               this.imageService.getHttpImages().subscribe(
                {
                  next: (images: ImageDataAzure[]) => {
                    this.imageService.imagesInitialSubject.next(images)
                    this.imageService.imagesSubject.next(images)
-                   
+                   this.closeModal();
                  },
-                 error: (e) => console.log(e),
+                 error: (e) => {
+                  
+                 },
                  complete: () => {}
                 }
               )
@@ -194,7 +197,7 @@ export class UploadFormComponent implements OnInit, OnChanges {
         
       
     }
-    this.closeModal();
+   
   }
 
   onDragOver(event: DragEvent): void {

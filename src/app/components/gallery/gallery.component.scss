@@ -8,10 +8,18 @@
   position: relative;
 }
 
+.grid-gallery{
+  width: 93%;
+}
+
 .padding-reset{
   padding: 0!important;
   display: inline-block;
   object-fit: cover;
+  display: flex;
+  margin: auto;
+  align-content: center;
+  justify-content: center;
 }
 
 app-card{

@@ -3,7 +3,7 @@ import { BrowserModule } from '@angular/platform-browser';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { BrowserAnimationsModule, NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { DragDropModule } from '@angular/cdk/drag-drop';
 import { SearchFilterComponent } from './components/search-filter/search-filter.component';
 import { CardComponent } from './components/card/card.component';
@@ -26,7 +26,12 @@ import { LoaderComponent } from './components/loader/loader/loader.component';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { ErrorInterceptor } from './interceptors/http/error/error.interceptor';
 import { ListImagesComponent } from './components/list-images/list-images.component';
+import { registerLocaleData } from '@angular/common';
+import localeFr from '@angular/common/locales/fr';
+import { TagInputModule } from 'ngx-chips';
+import { TagsComponent } from './components/search-filter/tags/tags.component';
 
+registerLocaleData(localeFr, 'fr');
 @NgModule({
   declarations: [
     AppComponent,
@@ -40,13 +45,15 @@ import { ListImagesComponent } from './components/list-images/list-images.compon
     ModalUploadComponent,
     LoginComponent,
     UploadFormComponent,
-    LoaderComponent
+    LoaderComponent,
+    TagsComponent
   ],
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
     AppRoutingModule,
     HttpClientModule,
+    NoopAnimationsModule,
     FontAwesomeModule,
     MatDialogModule,
     MatRadioModule,
@@ -56,7 +63,8 @@ import { ListImagesComponent } from './components/list-images/list-images.compon
     ReactiveFormsModule,
     MatButtonModule,
     DragDropModule,
-    MatProgressSpinnerModule
+    MatProgressSpinnerModule,
+    TagInputModule
   ],
   providers: [ImageService, {
     provide: HTTP_INTERCEPTORS,

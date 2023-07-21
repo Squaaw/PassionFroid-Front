@@ -78,7 +78,7 @@ table {
 .filter-list{
 	display: flex;
 	align-items: center;
-	justify-content: space-around;
+	justify-content: end;
 	img{
 		width: 19px;
 		height: 18px;
@@ -99,7 +99,7 @@ $container-max-widths: (
   sm: 540px,
   md: 720px,
   lg: 960px,
-  xl: 1340px
+  xl: 1840px,
 );
 
 @each $breakpoint,
@@ -114,3 +114,8 @@ $container-max-width in $container-max-widths {
     }
   }
 }
+/* Importing Bootstrap SCSS file. */
+@import "~bootstrap/scss/bootstrap";
+/* Importing Datepicker SCSS file. */
+@import "node_modules/ngx-bootstrap/datepicker/bs-datepicker";
+//@import "~@ng-select/ng-select/themes/default.theme.css";

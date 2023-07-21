@@ -18,9 +18,10 @@ export class TableComponent implements OnInit {
 
   ngOnInit(): void {
     
-       
-      this.imageService.images$.subscribe((value) => {
-        this.renderView = value;
+    
+    this.imageService.images$.subscribe((value) => {
+      this.renderView = value;
+      console.log(value);
       });
    
   

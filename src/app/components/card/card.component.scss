@@ -21,15 +21,17 @@ img {
 }
 
 .vertical-image{
-    width: 400px!important;
-    height: 510px!important;
+    width: 542px!important;
+    height: 610px!important;
     object-fit: cover;
 }
 .horizontal-image{
-    width: 400px!important;
-    height: 250px!important;
+    width: 542px!important;
+    height: 300px!important;
     object-fit: cover;
 }
+
+
 
 :host:hover .overlay{
     transform: scale(1);

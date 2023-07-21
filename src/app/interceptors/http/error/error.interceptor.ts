@@ -9,27 +9,24 @@ import {
 import { BehaviorSubject, Observable, tap } from 'rxjs';
 import { Router } from '@angular/router';
 import { ImageService } from 'src/app/services/image/image.service';
+import { HttpErrorsService } from 'src/app/services/errors/http-errors.service';
 
 @Injectable()
 export class ErrorInterceptor implements HttpInterceptor {
 
 
 
-  constructor(private router: Router, private imageService: ImageService) {}
+  constructor(private router: Router, private httpErrorService: HttpErrorsService) {}
 
   intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
    
 
     return next.handle(request).pipe( tap(() => {},
       (err: any) => {
+        console.log(err);
+        
       if (err instanceof HttpErrorResponse) {
-        if (err.status == 400) {
-          this.imageService.errorHttpMessageSubject.next("Une erreur de réseau est survenue, "+ "\n" +" recommencez dans quelques instants.")
-        }
-        if (err.status !== 403) {
-         return;
-        }
-        this.router.navigate(['']);
+        this.httpErrorService.sethttpMessageRequest(err.error.msg, err.status)
       }
     }));
   }

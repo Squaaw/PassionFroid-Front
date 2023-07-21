@@ -1,23 +1,51 @@
 <ng-container *ngIf="renderView.length > 0; then contenu; else noContenu"></ng-container>
 
 <ng-template #contenu>
-  
-  <div class="row content">
-    <ng-container *ngIf="httpErrorMessage.length > 0;"><div  class="alert alert-danger alert-dismissible fade show" type="danger" dismissOnTimeout="5000" role="alert">{{httpErrorMessage}}</div></ng-container>
-    <ng-container *ngFor="let column of splitRenderViewIntoColumns(renderView, 3)">
-      <div class="col-lg-4 col-md-2 mb-lg-0">
-        <div class="row">
-          <div class="padding-reset" *ngFor="let item of column">
-            <app-card [value]="item"></app-card>
+  <div class="row content justify-content-center align-items-start grid-gallery">
+    
+
+    <ng-container *ngIf="renderView.length === 1; else viewLengthCheck">
+      <ng-container *ngFor="let column of splitRenderViewIntoColumns(renderView, 3)">
+        <div class="col-lg-12 col-md-6 mb-lg-0">
+          <div class="row">
+            <div class="padding-reset" *ngFor="let item of column">
+              <app-card [value]="item"></app-card>
+            </div>
           </div>
         </div>
-      </div>
+      </ng-container>
     </ng-container>
+    
+    <ng-template #viewLengthCheck>
+      <ng-container *ngIf="renderView.length <= 5; else greaterThanFive">
+        <ng-container *ngFor="let column of splitRenderViewIntoColumns(renderView, 2)">
+          <div class="col-lg-6 col-md-6 mb-lg-0">
+            <div class="row">
+              <div class="padding-reset" *ngFor="let item of column">
+                <app-card [value]="item"></app-card>
+              </div>
+            </div>
+          </div>
+        </ng-container>
+      </ng-container>
+    
+      <ng-template #greaterThanFive>
+        <ng-container *ngFor="let column of splitRenderViewIntoColumns(renderView, 3)">
+          <div class="col-lg-4 col-md-6 mb-lg-0">
+            <div class="row">
+              <div class="padding-reset" *ngFor="let item of column">
+                <app-card [value]="item"></app-card>
+              </div>
+            </div>
+          </div>
+        </ng-container>
+      </ng-template>
+    </ng-template>
   </div>
 
 </ng-template>
 
 <ng-template #noContenu>
   <!-- Placeholder content or alternative display when images.length is not greater than 0 -->
-  <div>Aucune images disponible.</div>
+  <div class="d-flex justify-content-center"><p [ngClass]="{'mt-5': images.length == 0}">Aucune images disponible.</p></div>
 </ng-template>
