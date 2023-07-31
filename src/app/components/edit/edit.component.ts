@@ -1,6 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { faEdit, faTrash } from '@fortawesome/free-solid-svg-icons';
+import { faEdit, faTrash, faDownload } from '@fortawesome/free-solid-svg-icons';
 import { ModalUploadComponent } from '../modal-upload/modal-upload.component';
 import { ImageService } from 'src/app/services/image/image.service';
 
@@ -14,7 +14,8 @@ export class EditComponent implements OnInit {
 
   faEdit = faEdit;
   faTrash = faTrash;
-  @Input() index: any;
+  faDownload = faDownload;
+  @Input() item: any;
 
   constructor(public dialog: MatDialog, private imageService: ImageService) { }
 
@@ -40,6 +41,16 @@ export class EditComponent implements OnInit {
     if (index !== -1) {
       this.imageService.deleteImage(index)
     }
+  }
+
+  downloadFile(base64:string,fileName:string){
+    const src = base64;
+    const link = document.createElement("a")
+    link.href = src
+    link.download = fileName
+    link.click()
+    
+    link.remove()
   }
 
 }

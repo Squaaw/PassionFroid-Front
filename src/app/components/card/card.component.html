@@ -1,15 +1,15 @@
 <div class="image-grid-container">
-    <img src={{value.base64}} alt="" class="img-fluid" [ngStyle]="{'height.px': value.width, 'width.px': value.height, 'margin': '5px'}" [ngClass]="getImageClass(value.width, value.height)" />
+    <img src={{item.base64}} alt="" class="img-fluid" [ngStyle]="{'height.px': item.width, 'width.px': item.height, 'margin': '5px'}" [ngClass]="getImageClass(item.width, item.height)" />
     <div class="overlay">
         <div class="content">
-            <h2>{{value.description}}</h2>
+            <h2>{{item.description}}</h2>
             <div class="info-wrapper">
                 <div class="image-details">
-                    <span class="tag-list">{{value.tags}}</span>
+                    <span class="tag-list">{{item.tags}}</span>
                 </div>
                 <div>
                     <div class="show-edit bottom">
-                        <app-edit [index]="value.id"></app-edit>
+                        <app-edit [item]="item"></app-edit>
                     </div> 
                     
                 </div>

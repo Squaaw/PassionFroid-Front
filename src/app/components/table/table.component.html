@@ -21,7 +21,9 @@
                 <td >{{item.description}}</td>
                 <td>{{item.tags}}</td>
                 <td >{{item.created_at | date : "dd/MM/y" : "fr" }}</td>
-                <td ><app-edit [index]="item.id"></app-edit></td>
+                <td ><app-edit 
+                    [item]="item"
+                ></app-edit></td>
             </tr>
         </tbody>
     </table>

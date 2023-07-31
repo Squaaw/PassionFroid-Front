@@ -1,2 +1,3 @@
 <fa-icon [icon]="faEdit" class="fa-edit" (click)="openDialog()"></fa-icon>
-<fa-icon [icon]="faTrash" class="fa-trash" (click)="deleteImage(index)"></fa-icon>
+<fa-icon [icon]="faTrash" class="fa-trash" (click)="deleteImage(item.id)"></fa-icon>
+<fa-icon [icon]="faDownload" class="fa-download" (click)="downloadFile(item.base64, item.name)"></fa-icon>

@@ -25,7 +25,7 @@ import { ImageDataAzure } from 'src/app/models/image';
 })
 export class CardComponent implements OnInit {
 
-  @Input() value: any;
+  @Input() item: any;
   tags = []
   faEllipsis = faEllipsis;
   showVar: boolean = false;
