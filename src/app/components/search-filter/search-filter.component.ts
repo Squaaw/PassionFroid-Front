@@ -46,6 +46,7 @@ export class SearchFilterComponent implements OnInit, OnDestroy {
   textRecognitionValue: string = ""
   isStarted = false;
   isStoppedAutomatically = true;
+
   
   constructor(
     private imageService: ImageService, 
@@ -96,28 +97,24 @@ export class SearchFilterComponent implements OnInit, OnDestroy {
     this.searchFilterService.optionChangeSortDate()
   }
 
+  handleSearchCognitiveService(event: any){
+    this.searchValue = event.target.value;
 
-  onSubmit($event: Event) {
+    if(event.key !== "Enter"){
+      return
+    }
+
+    this.handleSearchImageText();
   }
-
-  submit(){
-
-  }
+  
 
   handleFilterImages(){
     this.svgColor = "#7905a4"
     this.searchFilterService.handleFilterImages();
   }
 
-
-
-  handleSearchImageText(event: any){
-    if(event.key !== "Enter"){
-      return
-    }
-    
-    
-    this.searchValue = event.target.value;
+  handleSearchImageText(){
+    console.log(this.searchValue, "searchValue");
     
     this.imageService.getImagesByCognitiveSearch(this.searchValue).subscribe((data: any) => {
       this.imagesSearchByInput = data
@@ -127,6 +124,16 @@ export class SearchFilterComponent implements OnInit, OnDestroy {
       this.handleFilterImages()
       this.imageService.imagesSubject.next(this.imagesSearchByInput)
     })
+  }
+
+  startService() {
+    this.service.start();
+    this.handleFilterImages();
+
+    if(this.isStoppedSpeechRecognize == false){
+    
+      this.service.textRecognitionValueSubject.next("")
+    }
   }
 
   onOptionChangeAccuracy(){
@@ -149,18 +156,6 @@ export class SearchFilterComponent implements OnInit, OnDestroy {
     this.isButtonDisabled = this.searchFilterService.handleFilterImages();
   }
 
-  startService() {
-    
-    
-    
-    this.service.start();
-    this.handleFilterImages();
 
-    if(this.isStoppedSpeechRecognize == false){
-    
-      this.service.textRecognitionValueSubject.next("")
-    }
-
-  }
 
 }

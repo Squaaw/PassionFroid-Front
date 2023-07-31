@@ -78,7 +78,6 @@ export class VoiceRecognitionService {
               this.searchFilterService.imagesSearchInputSubject.next(this.imagesSearchByInput)
               this.searchFilterService.handleFilterImages()
               this.imageService.imagesSubject.next(this.imagesSearchByInput)
-             // this.imageService.imagesSubject.next(this.searchFilterService.imagesFilteredSubject.getValue())
             },
             error: (e) => console.error(e),
         })
