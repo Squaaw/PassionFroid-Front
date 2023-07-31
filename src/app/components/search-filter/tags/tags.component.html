@@ -1,5 +1,6 @@
 
 <tag-input (keyup)="handleSearchImageTags($event)"  [(ngModel)]="selectedTag"
+    secondaryPlaceholder="Rechercher par tags"
     [onlyFromAutocomplete]="true">
     <tag-input-dropdown [showDropdownIfEmpty]="true"
                 [focusFirstElement]="true"

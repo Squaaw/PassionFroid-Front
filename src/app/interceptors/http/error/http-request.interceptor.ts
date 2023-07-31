@@ -9,24 +9,25 @@ import {
 import { BehaviorSubject, Observable, tap } from 'rxjs';
 import { Router } from '@angular/router';
 import { ImageService } from 'src/app/services/image/image.service';
-import { HttpErrorsService } from 'src/app/services/errors/http-errors.service';
+import { HttpRequestMessageService } from 'src/app/services/http-request-message/http-request-message.service';
+
 
 @Injectable()
-export class ErrorInterceptor implements HttpInterceptor {
+export class HttpRequestInterceptor implements HttpInterceptor {
 
 
 
-  constructor(private router: Router, private httpErrorService: HttpErrorsService) {}
+  constructor(private router: Router, private httpRequestMessageService: HttpRequestMessageService) {}
 
   intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
    
 
     return next.handle(request).pipe( tap(() => {},
       (err: any) => {
-        console.log(err);
+        console.log(err, "err dans interceptor");
         
       if (err instanceof HttpErrorResponse) {
-        this.httpErrorService.sethttpMessageRequest(err.error.msg, err.status)
+        this.httpRequestMessageService.sethttpMessageRequest(err.error.msg, err.status)
       }
     }));
   }

@@ -10,12 +10,13 @@
             </label>
         </div>
     </div>
+    <!-- <p *ngIf="httpMessageSuccess.length > 0" class="alert alert-success">{{httpMessageSuccess}}</p> -->
     <div
         (dragover)="onDragOver($event)"
         (drop)="onDrop($event)" 
         [ngClass]=
         "{'upload-container': selectedImages.length > 0 && table == false, 'upload-container-bis': selectedImages.length == 0 || selectedOption == 'url' && selectedImages.length >= 0, 'upload-container-url': selectedOption == 'url' || gallery==false, 'drag-over': isDragOver}"
-        >
+        > 
         <div class="wrapper" [ngClass]="{'wrapper-url': selectedOption == 'url'}">
             <div *ngIf="selectedOption == 'url';else other_content">
                 <label for="url-input">
@@ -76,8 +77,8 @@
     <div [ngClass]=
             "{'is-display-list': selectedImages.length == 0 || selectedOption == 'url'}"
             class="actions-buttons" >
-        <div class="filter-list" *ngIf="selectedOption == 'file' && selectedImages.length > 0;">
-            <img src="assets/icon/grid.png" alt="icone grid" (click)="toggleViewImages('gallery')" class="icon-list" [ngStyle]="{'background-color': gallery ? '#E3E3E3' : 'inherit'}">
+        <div *ngIf="selectedOption == 'file' && selectedImages.length > 0;">
+            <svg (click)="toggleViewImages('gallery')" aria-hidden="true" focusable="false" data-prefix="fas" data-icon="grid-2" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="svg-inline--fa fa-grid-2 fa-lg me-2"><path fill="currentColor" d="M224 80c0-26.5-21.5-48-48-48H80C53.5 32 32 53.5 32 80v96c0 26.5 21.5 48 48 48h96c26.5 0 48-21.5 48-48V80zm0 256c0-26.5-21.5-48-48-48H80c-26.5 0-48 21.5-48 48v96c0 26.5 21.5 48 48 48h96c26.5 0 48-21.5 48-48V336zM288 80v96c0 26.5 21.5 48 48 48h96c26.5 0 48-21.5 48-48V80c0-26.5-21.5-48-48-48H336c-26.5 0-48 21.5-48 48zM480 336c0-26.5-21.5-48-48-48H336c-26.5 0-48 21.5-48 48v96c0 26.5 21.5 48 48 48h96c26.5 0 48-21.5 48-48V336z" class=""></path></svg>
             <fa-icon [icon]="faList" class="icon-list" (click)="toggleViewImages('table')" class="icon-list" [ngStyle]="{'background-color': table ? '#E3E3E3' : 'inherit'}"></fa-icon>
         </div>
         <div>

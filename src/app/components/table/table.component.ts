@@ -21,11 +21,7 @@ export class TableComponent implements OnInit {
     
     this.imageService.images$.subscribe((value) => {
       this.renderView = value;
-      console.log(value);
-      });
-   
-  
-    
+    });
   }
 
 

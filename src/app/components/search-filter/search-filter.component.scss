@@ -4,6 +4,9 @@
   legend, .search-fieldset{
     all: revert;
   }
+  .search-fieldset{
+    border: 1px solid lightgrey;
+  }
   .search-text{
     width: 20%;
   }
@@ -19,7 +22,11 @@
         margin-left: 2rem;
         width: 90%;
         .btn{
+          font-size: 1.2rem!important;
+          padding: 15px;
           border: 1px solid lightgrey;
+          border-top-left-radius: 0;
+          border-bottom-left-radius: 0;
         }
         input[type="search"] {
         //   border: 1px solid #cfbfd0;
@@ -53,7 +60,7 @@
           margin-left: 1rem;
           border: 1px solid #cfbfd0;
           border-radius: 5px;
-          font-size: 0.8rem;
+          font-size: 1.3rem;
         }
     }
 
@@ -98,11 +105,22 @@
   }
 }
 
+.active{
+  fill: #7905a4;
+}
 
+.deactivate{
+  fill: "#b473c9";
+}
 
+.activated-micro{
+  fill: red;
+}
 
+.deactivated-micro{
+  fill: inherit;
+}
 
-
-
-
-
+.svg-micro:hover svg {
+  fill: red; /* Change 'red' to your desired color */
+}

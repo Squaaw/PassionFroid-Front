@@ -1,7 +1,10 @@
 <ng-container *ngIf="renderView.length > 0; then contenu; else noContenu"></ng-container>
 
 <ng-template #contenu>
-  <div class="row content justify-content-center align-items-start grid-gallery">
+  <div 
+    class="row content justify-content-center align-items-start grid-gallery"
+    [ngClass]="{'w-50': renderView.length >= 1 && renderView.length <= 5}"
+  >
     
 
     <ng-container *ngIf="renderView.length === 1; else viewLengthCheck">

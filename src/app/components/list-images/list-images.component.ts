@@ -57,7 +57,7 @@ export class ListImagesComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.searchFilterService.isFiltresVisible$.subscribe((value) => this.isFiltresVisible = value)
-    this.searchFilterService.imageFiltered$.subscribe((value) => this.imagesFiltered = value)
+    this.searchFilterService.imagesFiltered$.subscribe((value) => this.imagesFiltered = value)
   }
 
   disableScroll() {

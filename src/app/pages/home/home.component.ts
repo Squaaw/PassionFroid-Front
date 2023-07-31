@@ -2,7 +2,7 @@ import { animate, style, transition, trigger } from '@angular/animations';
 import { Component, OnInit, Output } from '@angular/core';
 import { faRefresh } from '@fortawesome/free-solid-svg-icons';
 import { ImageDataAzure } from 'src/app/models/image';
-import { HttpErrorsService } from 'src/app/services/errors/http-errors.service';
+import { HttpRequestMessageService } from 'src/app/services/http-request-message/http-request-message.service';
 import { ImageService } from 'src/app/services/image/image.service';
 import { TagsService } from 'src/app/services/tags/tags.service';
 import { EventEmitter } from 'stream';
@@ -30,13 +30,14 @@ export class Home implements OnInit {
   imagesHorizontal: ImageDataAzure[] = [];
   httpErrorMessage: string = ""
   showAlert = true;
-  constructor(private imageService: ImageService, private tagsService: TagsService, private httpErrorService: HttpErrorsService) {
+  constructor(private imageService: ImageService, private tagsService: TagsService, private httpRequestMessageService: HttpRequestMessageService) {
     
       
   }
 
   ngOnInit(): void {
     this.loadImages()
+    this.httpRequestMessageService.httpMessageRequest$.subscribe((value: any) => this.httpErrorMessage = value)
   }
 
   onClickReloadData(){
@@ -52,10 +53,10 @@ export class Home implements OnInit {
         this.images = v
         this.imageService.imagesSubject.next(v)
         this.imageService.imagesInitialSubject.next(v)
-        this.httpErrorService.sethttpMessageRequest("", 0)
+        this.httpRequestMessageService.sethttpMessageRequest("", 0)
       },
       error: (e) => {
-        this.httpErrorService.httpMessageRequest$.subscribe((value) => {
+        this.httpRequestMessageService.httpMessageRequest$.subscribe((value) => {
          
           this.httpErrorMessage = value.msg;
           this.showAlert = true;

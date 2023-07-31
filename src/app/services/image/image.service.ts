@@ -1,6 +1,6 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, Observable, throwError } from 'rxjs';
+import { BehaviorSubject, Observable, catchError, throwError } from 'rxjs';
 import { ImageDataAzure } from 'src/app/models/image';
 import { environment } from 'src/environments/environment';
 
@@ -27,9 +27,15 @@ export class ImageService {
   }
 
   getImagesByCognitiveSearch(text: string, filter:string = "") {
-    console.log(text, "Text");
-    
-    return this.httpClient.post(filter == "" ? this.basePathApi + '/images/search/' : this.basePathApi + '/images/search/' + filter, { search: text }, this.headers)
+    return this.httpClient.post(filter == "" ? this.basePathApi + '/images/search/' : this.basePathApi + '/images/search/' + filter, { search: text }, this.headers).pipe(catchError((error: HttpErrorResponse) => {
+      if (error.status === 500) {
+        // Handle the error here (e.g., show a notification, redirect, etc.)
+        console.error('Internal Server Error (500):', error.message);
+      }
+
+      // Rethrow the error so it can be handled by the component as well
+      return throwError(error);
+    }))
   }
   
   getHttpImages(): Observable<any> {

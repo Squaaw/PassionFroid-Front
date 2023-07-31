@@ -35,9 +35,12 @@ export class TagsComponent implements OnInit, OnChanges, AfterViewChecked {
   ngOnInit(): void {
     this.tagsService.tagsArray$.subscribe((data:any) => {
       this.autocompleteItemsAsObjects = data
+      console.log(data, "tag data");
+      
     })
 
-    this.searchFilterService.imageSearchInput$.subscribe((value) => this.imagesSearchByInput = value)
+    this.searchFilterService.imagesSearchInput$.subscribe((value) => this.imagesSearchByInput = value)
+    this.tagsService.selectedTag$.subscribe((value) => this.selectedTag = value)
 
   }
 

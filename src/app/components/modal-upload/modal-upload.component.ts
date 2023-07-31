@@ -5,7 +5,8 @@ import { DomSanitizer } from '@angular/platform-browser';
 import { ImageService } from 'src/app/services/image/image.service';
 import { faUpload, faTrash, faClose, faList, faFileArrowUp } from '@fortawesome/free-solid-svg-icons';
 import { animate, style, transition, trigger } from '@angular/animations';
-import { HttpErrorsService } from 'src/app/services/errors/http-errors.service';
+import { HttpRequestMessageService } from 'src/app/services/http-request-message/http-request-message.service';
+import { HttpRequestMessage } from 'src/app/services/http-request-message/http-request-message.interface';
 
 @Component({
     selector: 'app-modal-upload',
@@ -46,7 +47,7 @@ export class ModalUploadComponent implements OnInit {
     gallery: boolean = true;
     table: boolean = false;
     selectedOption: string = 'file';
-    httpErrorMessage: string = ""
+    httpErrorMessage: HttpRequestMessage = {msg : "", status: 0}
     showAlert = true;
 
     constructor(
@@ -54,22 +55,22 @@ export class ModalUploadComponent implements OnInit {
         private http: HttpClient, 
         private sanitizer: DomSanitizer,
         private imageService: ImageService,
-        private httpErrorService: HttpErrorsService
+        private httpRequestMessageService: HttpRequestMessageService
     ) {
         this.imageInput = new ElementRef(null);
     }
 
     ngOnInit(): void {
-        this.httpErrorService.httpMessageRequest$.subscribe((value) => {
-            this.httpErrorMessage = value.msg
+        this.httpRequestMessageService.httpMessageRequest$.subscribe((value: HttpRequestMessage) => {
+            this.httpErrorMessage.msg = value.msg
+            this.httpErrorMessage.status = value.status
             
-              if(this.httpErrorMessage.length > 0){
-      
-                setTimeout(() => {
-                  this.showAlert = false;
-                }, 3000); // Réglez la durée (en millisecondes) selon vos besoins
-              }
-              
+            if(this.httpErrorMessage.msg.length > 0){
+    
+              setTimeout(() => {
+                this.showAlert = false;
+              }, 3000); // Réglez la durée (en millisecondes) selon vos besoins
+            }
           })
     }
 
@@ -84,8 +85,7 @@ export class ModalUploadComponent implements OnInit {
 
     onDialogClose(value: any): void {
       if(value == false){
-        this.httpErrorMessage = "";
-        this.httpErrorService.sethttpMessageRequest(this.httpErrorMessage, 0)
+        this.httpRequestMessageService.sethttpMessageRequest("", 0)
       }
     }
     

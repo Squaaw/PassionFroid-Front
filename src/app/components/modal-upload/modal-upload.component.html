@@ -3,15 +3,16 @@
         <fa-icon mat-raised-button [mat-dialog-close]="false" [icon]="faClose" class="close-btn" (click)="onDialogClose(false)"></fa-icon>
         <ng-container *ngIf="data.name === 'upload'; else editModal">
             <h2 mat-dialog-title>Charger une image depuis {{titleModal}} </h2>
-            <ng-container *ngIf="httpErrorMessage.length > 0;">
+            <ng-container *ngIf="httpErrorMessage.msg.length > 0;">
                 <div 
                   [@fade]="showAlert"
                   *ngIf="showAlert"
-                  class="alert alert-danger alert-dismissible fade show" 
+                  class="alert alert-dismissible fade show text-center"
+                  [ngClass]="{'alert-success': httpErrorMessage.status == 200, 'alert-danger': httpErrorMessage.status != 200}"
                   type="danger" 
-                  dismissOnTimeout="5000" 
+                  dismissOnTimeout="3000" 
                   role="alert">
-                  {{httpErrorMessage}}
+                  {{httpErrorMessage.msg}}
                 </div>
               </ng-container>
             <app-upload-form></app-upload-form>

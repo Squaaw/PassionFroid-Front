@@ -8,6 +8,7 @@ import { ImageDataAzure } from 'src/app/models/image';
 
 import { ImageService } from 'src/app/services/image/image.service';
 import { MatDialog } from '@angular/material/dialog';
+import { HttpRequestMessageService } from 'src/app/services/http-request-message/http-request-message.service';
 
 @Component({
   selector: 'app-upload-form',
@@ -42,18 +43,20 @@ export class UploadFormComponent implements OnInit, OnChanges {
   height = 0;
   width = 0;
   maxIDImage = 0;
-  httpMessageSuccess: string = ""
+  httpRequestMessage: string = ""
 
   constructor(
     private http: HttpClient,
     private sanitizer: DomSanitizer,
     public dialog: MatDialog,
-    private imageService: ImageService
+    private imageService: ImageService,
+    private httpRequestMessageService: HttpRequestMessageService
   ) {}
 
   ngOnInit(): void {
     this.images = this.imageService.imagesSubject.getValue();
     this.imagesInitial = this.imageService.imagesInitialSubject.getValue();
+    this.httpRequestMessageService.httpMessageRequest$.subscribe((value: any) => this.httpRequestMessage = value)
   }
   
   ngOnChanges(changes: SimpleChanges){
@@ -174,8 +177,9 @@ export class UploadFormComponent implements OnInit, OnChanges {
         this.imageService.add(image.name, image.base64, this.width, this.height).subscribe(
           {
             next: (data: any) => {
-              console.log(data, "data");
-              this.httpMessageSuccess = "Les"
+            
+              
+              this.httpRequestMessageService.sethttpMessageRequest(data.msg, 200)
               this.imageService.getHttpImages().subscribe(
                {
                  next: (images: ImageDataAzure[]) => {
@@ -186,12 +190,22 @@ export class UploadFormComponent implements OnInit, OnChanges {
                  error: (e) => {
                   
                  },
-                 complete: () => {}
+                 complete: () => {
+                  
+                 }
                 }
               )
             },
-            error: (e) => console.log(e),
-            complete: () => {}
+            error: (e) => {
+              console.log(e, "e");
+              
+              this.httpRequestMessageService.sethttpMessageRequest(e.error.msg, e.status)
+             
+              
+            },
+            complete: () => {
+             
+            }
           
          })
         

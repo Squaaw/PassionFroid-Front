@@ -1,18 +1,20 @@
-import { Component, ElementRef, OnInit } from '@angular/core';
+import { Component, ElementRef, OnDestroy, OnInit } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
 import { faSearch, faChevronDown, faFilter } from '@fortawesome/free-solid-svg-icons';
 import { MatDialog } from '@angular/material/dialog';
 import { ImageService } from 'src/app/services/image/image.service';
 import { ImageDataAzure } from 'src/app/models/image';
-import { NgForm, FormGroup, FormControl, FormBuilder } from '@angular/forms';
+import { FormGroup, FormBuilder } from '@angular/forms';
 import { TagsService } from 'src/app/services/tags/tags.service';
 import { SearchFilterService } from 'src/app/services/search-filter/search-filter.service';
+import { VoiceRecognitionService } from 'src/app/services/voice-recognition/voice-recognition.service';
 
 @Component({
   selector: 'app-search-filter',
   templateUrl: './search-filter.component.html',
   styleUrls: ['./search-filter.component.scss']
 })
-export class SearchFilterComponent implements OnInit {
+export class SearchFilterComponent implements OnInit, OnDestroy {
   images: any[] = [];
   imagesFiltered: ImageDataAzure[] = [];
   imagesSearchByInput: ImageDataAzure[] = [];
@@ -34,11 +36,16 @@ export class SearchFilterComponent implements OnInit {
   scrollTarget: ElementRef;
   form: FormGroup;
   searchByTags: boolean = false;
-
+  searchValue: string = "";
+  searchByText: boolean = false;
+  svgColor = '#b473c9';
   isFiltresVisible: boolean = false;
+  isButtonDisabled = true;
+  isStoppedSpeechRecognize = false;
 
-
-  
+  textRecognitionValue: string = ""
+  isStarted = false;
+  isStoppedAutomatically = true;
   
   constructor(
     private imageService: ImageService, 
@@ -47,6 +54,8 @@ export class SearchFilterComponent implements OnInit {
     public dialog: MatDialog, 
     scrollTarget: ElementRef, 
     public fb: FormBuilder,
+    public service: VoiceRecognitionService, 
+    private http: HttpClient
   ) {
     this.scrollTarget = scrollTarget
     this.form = this.fb.group({
@@ -54,122 +63,104 @@ export class SearchFilterComponent implements OnInit {
     });
 
 
+    
   }
 
   ngOnInit(): void {
-   this.imageService.images$.subscribe((value) => this.images = value)
-   this.imageService.imagesInitial$.subscribe((value) => this.initialImages = value)
-   this.searchFilterService.isFiltresVisible$.subscribe((value) => this.isFiltresVisible = value)
-   this.searchFilterService.imageSearchInput$.subscribe((value) => this.imagesSearchByInput = value)
-   
-   this.form = this.fb.group({searchRadio: ['byText']})
+    this.imageService.images$.subscribe((value) => this.images = value)
+
+    this.searchFilterService.isFiltresVisible$.subscribe((value) => this.isFiltresVisible = value)
+    this.searchFilterService.imagesSearchInput$.subscribe((value) => this.imagesSearchByInput = value)
+    //this.service.isSpeechEnd$.subscribe((value) => this.isSpeechEnd = value)
+    this.service.textRecognitionValue$.subscribe((value) => this.textRecognitionValue = value)
+    this.service.isStoppedSpeechRecognize$.subscribe((value) => this.isStoppedSpeechRecognize = value)
+
+    
+    this.service.init();
+    this.form = this.fb.group({searchRadio: ['byText']})
+  }
+
+  ngOnDestroy(): void {
+      this.service.textRecognitionValueSubject.unsubscribe();
+      this.service.isStoppedSpeechRecognizeSubject.unsubscribe();
   }
 
   changeSearchHandler(e: any) {
-    console.log(this.form.value, "imagesSearchByInput");
     this.searchByTags = !this.searchByTags
   }
 
   onOptionChangeSortDate(){
-    this.handleFilterImages()
-    this.imageService.imagesSubject.next(this.imagesFiltered)
+    console.log(this.sortedCreatedAt);
+    
+    this.searchFilterService.sortedCreatedAtSubject.next(this.sortedCreatedAt)
+    this.searchFilterService.optionChangeSortDate()
   }
 
 
   onSubmit($event: Event) {
-    console.log($event.target, "toto");
-    
   }
 
   submit(){
 
   }
 
-  
-
-  public handleFilterImages(){
-    let imagesArray = []
-    console.log("je passe ici", this.imagesSearchByInput);
-    
-    if(this.imagesSearchByInput.length > 0){
-      console.log("toto");
-      
-      imagesArray = this.imagesSearchByInput
-    } else {
-      imagesArray = this.initialImages
-    }
-
-    this.imagesFiltered = imagesArray.filter((image) => {
-      if(image.width && image.height){
-        if(this.selectedOption == "Vertical")
-          return image.width < image.height
-        else
-          return image.width > image.height
-      }
-      return image
-    })
-    
-    this.imagesFiltered = this.imagesFiltered.sort((a: any, b) => {
-      const dateA = a.created_at && new Date(a.created_at).getTime()
-      const dateB = b.created_at && new Date(b.created_at).getTime();
-  
-      if (this.sortedCreatedAt === "recent") {
-        return dateB && dateA && dateB - dateA;
-      } else {
-        return dateA && dateB && dateA - dateB;
-      }
-    });
-    
-    this.imagesFiltered = this.imagesFiltered.filter((image) => {
-      if(image.similarity && this.filter !== ""){
-        if(this.filter == "high"){
-          return image.similarity >= 30
-        } 
-      }
-      return image
-    })
-
-    //this.searchFilterService.setImagesFiltered(this.imagesFiltered)
+  handleFilterImages(){
+    this.svgColor = "#7905a4"
+    this.searchFilterService.handleFilterImages();
   }
 
+
+
   handleSearchImageText(event: any){
-    if(event.key !== "Enter")
+    if(event.key !== "Enter"){
       return
+    }
     
-    const searchValue = event.target.value;
     
-    this.imageService.getImagesByCognitiveSearch(searchValue).subscribe((data: any) => {
+    this.searchValue = event.target.value;
+    
+    this.imageService.getImagesByCognitiveSearch(this.searchValue).subscribe((data: any) => {
       this.imagesSearchByInput = data
+   
+      
+      this.searchFilterService.imagesSearchInputSubject.next(this.imagesSearchByInput)
       this.handleFilterImages()
-      this.imageService.imagesSubject.next(this.imagesFiltered)
+      this.imageService.imagesSubject.next(this.imagesSearchByInput)
     })
   }
 
   onOptionChangeAccuracy(){
-    if(this.imagesSearchByInput.length > 0)
-      if(this.filter == "high"){
-        this.imagesFiltered = this.imagesSearchByInput.filter((imageData: any) => {
-            return imageData.similarity >= 30
-          });
-          this.imageService.imagesSubject.next(this.imagesFiltered)
-      } else {
-        this.imageService.imagesSubject.next(this.imagesSearchByInput)
-      }
+    this.searchFilterService.filterSimilaritySubject.next(this.filter)
+    this.searchFilterService.optionChangeAccuracyHandler()
   }
 
-  
 
   onOptionChangeOrientation() {
-    this.handleFilterImages()
-    this.imageService.imagesSubject.next(this.imagesFiltered)
+    this.searchFilterService.selectedOptionSubject.next(this.selectedOption)
+    this.searchFilterService.orientationImageHandler()
   }
   
   clearAllFilter(){
-    console.log(this.filter, "filter");
-    
+    this.tagsService.setSelectedTags([])
     this.imageService.imagesSubject.next(this.imageService.imagesInitialSubject.getValue())
-    this.filter = ""
-    this.sortedCreatedAt = ""
-    this.selectedOption = ""
+    this.searchFilterService.filterSimilaritySubject.next("")
+    this.searchFilterService.sortedCreatedAtSubject.next("")
+    this.searchFilterService.selectedOptionSubject.next("")
+    this.isButtonDisabled = this.searchFilterService.handleFilterImages();
   }
+
+  startService() {
+    
+    
+    
+    this.service.start();
+    this.handleFilterImages();
+
+    if(this.isStoppedSpeechRecognize == false){
+    
+      this.service.textRecognitionValueSubject.next("")
+    }
+
+  }
+
 }

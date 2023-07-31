@@ -15,6 +15,8 @@ export class TagsService {
 
   tagsArraySubject = new BehaviorSubject<Tags[]>([]);
   tagsArray$ = this.tagsArraySubject.asObservable();
+  selectedTagSubject = new BehaviorSubject<Tags[]>([]);
+  selectedTag$ = this.selectedTagSubject.asObservable();
   imagesByTagsSubject = new BehaviorSubject<ImageDataAzure[]>([]);
   imagesByTags$ = this.imagesByTagsSubject.asObservable();
 
@@ -31,4 +33,6 @@ export class TagsService {
   setTagsArray(tags: Tags[]) { this.tagsArraySubject.next(tags); }
 
   setImagesByTags(images: ImageDataAzure[]) { this.imagesByTagsSubject.next(images); }
+
+  setSelectedTags(tags: Tags[]) { this.selectedTagSubject.next(tags); }
 }

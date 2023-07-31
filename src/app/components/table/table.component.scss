@@ -6,29 +6,9 @@ table{
     width: 100%;
     min-width: 400px;
 
-    thead {
-        tr {
-            text-align: center;
-        }
-    }
-
-    th,
-    td {
-        padding: 12px 15px;
-        text-align: center;
-        vertical-align: middle;
-        font-weight: bold;
-    }
-    tbody {
-        tr{
-            border-top: 1px solid #E3E3E3;
-            border-top: 1px solid #E3E3E3;
-            img{
-                width: 64px;
-                height: 64px;
-                border-radius: 5px;
-                object-fit: cover;
-            }
-        }
-    }
+    
+   img{
+    width: 130px;
+    height: 90px;
+   }
 }

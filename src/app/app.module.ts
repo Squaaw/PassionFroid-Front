@@ -24,7 +24,7 @@ import { LoginComponent } from './pages/auth/login/login.component';
 import { UploadFormComponent } from './components/form/upload-form/upload-form.component';
 import { LoaderComponent } from './components/loader/loader/loader.component';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
-import { ErrorInterceptor } from './interceptors/http/error/error.interceptor';
+import { HttpRequestInterceptor } from './interceptors/http/error/http-request.interceptor';
 import { ListImagesComponent } from './components/list-images/list-images.component';
 import { registerLocaleData } from '@angular/common';
 import localeFr from '@angular/common/locales/fr';
@@ -70,7 +70,7 @@ registerLocaleData(localeFr, 'fr');
     provide: HTTP_INTERCEPTORS,
     useClass: LoaderInterceptor,
     multi: true,
-  },{ provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },],
+  },{ provide: HTTP_INTERCEPTORS, useClass: HttpRequestInterceptor, multi: true },],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

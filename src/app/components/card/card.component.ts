@@ -26,6 +26,7 @@ import { ImageDataAzure } from 'src/app/models/image';
 export class CardComponent implements OnInit {
 
   @Input() value: any;
+  tags = []
   faEllipsis = faEllipsis;
   showVar: boolean = false;
   
@@ -35,7 +36,6 @@ export class CardComponent implements OnInit {
   }
   
   ngOnInit(): void {
-
   }
 
   toggleEditComponent(){

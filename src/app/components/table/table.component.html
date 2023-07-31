@@ -4,22 +4,24 @@
     <table class="table table-hover">
         <thead>
             <tr>
-                <th scope="col">#</th>
-                <th scope="col">Image</th>
-                <th scope="col">Nom du fichier</th>
-                <th scope="col">Meta description</th>
-                <th scope="col">Tags</th>
-                <th scope="col">Date d'ajout</th>
+                <th scope="col" >#</th>
+                <th scope="col" >Image</th>
+                <th scope="col" >Nom du fichier</th>
+                <th scope="col" >Meta description</th>
+                <th scope="col" >Tags</th>
+                <th scope="col" >Date d'ajout</th>
+                <th scope="col" >Actions</th>
             </tr>
         </thead>
         <tbody>
             <tr *ngFor="let item of renderView">
-                <td>{{item.id}}</td>
-                <td><img src={{item.base64}}></td>
-                <td>{{item.name}}</td>
-                <td>{{item.description}}</td>
-                <td>item.tags</td>
-                <td>{{item.created_at | date : "dd/MM/y" : "fr" }}</td>
+                <td >{{item.id}}</td>
+                <td ><img class="img-fluid" src={{item.base64}}></td>
+                <td >{{item.name}}</td>
+                <td >{{item.description}}</td>
+                <td>{{item.tags}}</td>
+                <td >{{item.created_at | date : "dd/MM/y" : "fr" }}</td>
+                <td ><app-edit [index]="item.id"></app-edit></td>
             </tr>
         </tbody>
     </table>
