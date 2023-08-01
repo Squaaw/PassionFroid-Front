@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit, Output, EventEmitter } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { faEdit, faTrash, faDownload } from '@fortawesome/free-solid-svg-icons';
 import { ModalUploadComponent } from '../modal-upload/modal-upload.component';
@@ -16,31 +16,19 @@ export class EditComponent implements OnInit {
   faTrash = faTrash;
   faDownload = faDownload;
   @Input() item: any;
+  @Output() displayModalEditEvent = new EventEmitter<boolean>();
 
   constructor(public dialog: MatDialog, private imageService: ImageService) { }
 
   ngOnInit(): void {
   }
 
-  openDialog() {
-    //this.disableScroll();
-
-    const dialogRef = this.dialog.open(ModalUploadComponent, {
-      width: '250px',
-      height: '250px',
-      disableClose: true,
-      data: { name: "edit" }
-    });
-
-    dialogRef.afterClosed().subscribe(result => {
-
-    });
-  }
 
   deleteImage(index: number) {
     if (index !== -1) {
       this.imageService.deleteImage(index)
     }
+    this.displayModalEditEvent.emit(false)
   }
 
   downloadFile(base64:string,fileName:string){

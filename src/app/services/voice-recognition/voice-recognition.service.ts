@@ -6,6 +6,7 @@ import { SearchFilterService } from '../search-filter/search-filter.service';
 import { ImageDataAzure } from 'src/app/models/image';
 declare var webkitSpeechRecognition: any;
 
+
 @Injectable({
   providedIn: 'root',
 })

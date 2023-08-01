@@ -1,16 +1,16 @@
 <ng-container *ngIf="renderView.length > 0; then contenu; else noContenu"></ng-container>
 <ng-template #contenu>
 <div class="table-responsive">
-    <table class="table table-hover">
-        <thead>
+    <table class="table table-hover" style="font-size:18px">
+        <thead style="font-size:20px">
             <tr>
-                <th scope="col" >#</th>
-                <th scope="col" >Image</th>
-                <th scope="col" >Nom du fichier</th>
-                <th scope="col" >Meta description</th>
-                <th scope="col" >Tags</th>
-                <th scope="col" >Date d'ajout</th>
-                <th scope="col" >Actions</th>
+                <th scope="col" class="fw-bold">#</th>
+                <th scope="col" class="fw-bold">Image</th>
+                <th scope="col" class="fw-bold">Nom du fichier</th>
+                <th scope="col" class="fw-bold">Meta description</th>
+                <th scope="col" class="fw-bold">Tags</th>
+                <th scope="col" class="fw-bold">Date d'ajout</th>
+                <th scope="col" class="fw-bold">Actions</th>
             </tr>
         </thead>
         <tbody>

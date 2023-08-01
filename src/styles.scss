@@ -119,3 +119,5 @@ $container-max-width in $container-max-widths {
 /* Importing Datepicker SCSS file. */
 @import "node_modules/ngx-bootstrap/datepicker/bs-datepicker";
 //@import "~@ng-select/ng-select/themes/default.theme.css";
+/* Importing Bootstrap SCSS file. */
+@import '~bootstrap/scss/bootstrap';

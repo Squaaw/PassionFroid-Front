@@ -2,6 +2,7 @@ import { Component, OnInit, Input, OnChanges, SimpleChanges, AfterViewInit } fro
 import { ImageDataAzure } from 'src/app/models/image';
 import { ImageService } from 'src/app/services/image/image.service';
 import { animate, style, transition, trigger } from '@angular/animations';
+import { faClose } from '@fortawesome/free-solid-svg-icons';
 
 @Component({
   selector: 'app-gallery',
@@ -16,7 +17,9 @@ export class GalleryComponent implements OnInit, OnChanges {
   images: ImageDataAzure[] = [];
   renderView: any[] = [];
   imagesSubject: any;
-
+  item: any = {}
+  displayModal: boolean = false;
+  faClose = faClose
 
   constructor(private imageService: ImageService) {
   }
@@ -44,7 +47,18 @@ export class GalleryComponent implements OnInit, OnChanges {
   }
 
   ngOnChanges(changes: SimpleChanges): void {
+    console.log(changes, "cahnges");
     
+  }
+
+
+  showModal(item: any){
+    this.item = item
+    this.displayModal = true;
+  }
+
+  hideModal(event: any = undefined){
+    this.displayModal = !event ? false : event
   }
 
 }

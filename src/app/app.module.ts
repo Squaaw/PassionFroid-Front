@@ -30,6 +30,9 @@ import { registerLocaleData } from '@angular/common';
 import localeFr from '@angular/common/locales/fr';
 import { TagInputModule } from 'ngx-chips';
 import { TagsComponent } from './components/search-filter/tags/tags.component';
+import { CardDetailsComponent } from './components/card-details/card-details.component';
+import { SplitByCommaPipe } from './pipe/split-by-comma.pipe';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 registerLocaleData(localeFr, 'fr');
 @NgModule({
@@ -46,7 +49,9 @@ registerLocaleData(localeFr, 'fr');
     LoginComponent,
     UploadFormComponent,
     LoaderComponent,
-    TagsComponent
+    TagsComponent,
+    CardDetailsComponent,
+    SplitByCommaPipe,
   ],
   imports: [
     BrowserModule,
@@ -64,7 +69,8 @@ registerLocaleData(localeFr, 'fr');
     MatButtonModule,
     DragDropModule,
     MatProgressSpinnerModule,
-    TagInputModule
+    TagInputModule,
+    NgbModule
   ],
   providers: [ImageService, {
     provide: HTTP_INTERCEPTORS,

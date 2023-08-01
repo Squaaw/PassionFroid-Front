@@ -1,0 +1,26 @@
+<div>
+    <div class="card" style="font-size: 20px">
+        <img src={{item.base64}} class="card-img-top" alt="...">
+        <div class="card-body">
+            <p class="card-text"> <strong>Titre : </strong>{{item.name | splitByComma:'.' : false}}</p>
+            <p class="card-text"> <strong>Description : </strong>{{item.description}}</p>
+            <p class="card-text"> <strong>Format : </strong>{{item.name | splitByComma:'.' : true}}</p>
+            <p class="card-text"> <strong>Poids : </strong>{{formatBytes(byteLength(item.base64))}}</p>
+            <p class="card-text"> <strong>Dimensions : </strong>{{getImgSize(item.base64)}}</p>
+            <p class="card-text mt-4"> <strong>Tags</strong></p>
+            <hr/>
+            <div class="d-flex flex-wrap" style="gap: 10px">
+                <span class="badge p-2" style="background-color: #8006AB;" *ngFor="let tag of item.tags" (click)="getImagesByTag(tag)">{{tag}}</span>
+            </div>
+        </div>
+        <div class="card-footer">
+            <div class="show-edit bottom">
+                <app-edit 
+                    [item]="item" 
+                    (displayModalEditEvent)="shareDisplayMode($event)" 
+                    class="d-flex justify-content-evenly">
+                </app-edit>
+            </div>
+        </div>
+    </div>
+</div>

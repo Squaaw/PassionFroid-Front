@@ -12,7 +12,7 @@
         <div class="col-lg-12 col-md-6 mb-lg-0">
           <div class="row">
             <div class="padding-reset" *ngFor="let item of column">
-              <app-card [item]="item"></app-card>
+              <app-card [item]="item" (click)="showModal(item)"></app-card>
             </div>
           </div>
         </div>
@@ -25,7 +25,7 @@
           <div class="col-lg-6 col-md-6 mb-lg-0">
             <div class="row">
               <div class="padding-reset" *ngFor="let item of column">
-                <app-card [item]="item"></app-card>
+                <app-card [item]="item" (click)="showModal(item)"></app-card>
               </div>
             </div>
           </div>
@@ -37,7 +37,7 @@
           <div class="col-lg-4 col-md-6 mb-lg-0">
             <div class="row">
               <div class="padding-reset" *ngFor="let item of column">
-                <app-card [item]="item"></app-card>
+                <app-card [item]="item" (click)="showModal(item)"></app-card>
               </div>
             </div>
           </div>
@@ -52,3 +52,15 @@
   <!-- Placeholder content or alternative display when images.length is not greater than 0 -->
   <div class="d-flex justify-content-center"><p [ngClass]="{'mt-5': images.length == 0}">Aucune images disponible.</p></div>
 </ng-template>
+
+<div class="modal" data-bs-backdrop="static" data-bs-keyboard="false" [ngClass]="{'show': displayModal}" tabindex="-1" id="exampleModal" [ngStyle]="{'display': displayModal ? 'block' : 'none'}" style="background: #00000094">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <button type="button" class="btn-close-modal" aria-label="Close" (click)="hideModal()"><fa-icon [icon]="faClose"></fa-icon></button>
+      <app-card-details
+        [item]="item"
+        (displayModalEvent)="hideModal($event)"
+      ></app-card-details>
+    </div>
+  </div>
+</div>

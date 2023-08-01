@@ -7,6 +7,7 @@
     position: relative;
     display: inline-block;
     margin: 5px;
+    overflow: hidden;
 }
 
 .image-item {
@@ -18,6 +19,12 @@ img {
     border-radius: 0.25rem;
     object-fit: cover;
     margin: 0!important;
+    transition: 0.5s all ease-in;
+}
+
+img:hover{
+    transform: scale(1.2);
+    cursor: pointer;
 }
 
 .vertical-image{
@@ -37,19 +44,7 @@ img {
     transform: scale(1);
 }
 
-.overlay{
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    background: rgb(0 0 0 / 71%);
-    top: 0;
-    left: 0;
-    transform: scale(0);
-    transition: all 0.3s 0.1s ease-in-out;
-    color: #fff;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+
 
     .content{
         width: 80%;
@@ -108,7 +103,6 @@ img {
             font-size: 1.5rem;
         }
         .show-edit::after {
-            /* (B1-1) ATTACH TRANSPARENT BORDERS */
             content: "";
             border: 9px solid transparent;
             position: absolute;
@@ -116,15 +110,9 @@ img {
             top: 28px;
         }
                
-            //   /* (B2) BOTTOM "CALLOUT TAIL" */
         .bottom.show-edit::after {
-            //     /* (B2-1) DOWN TRIANGLE */
+
                 border-top-color: white;
                  border-bottom: 0;
         }  
-            //     /* (B2-2) POSITION AT BOTTOM */
-            //     bottom: -20px; left: 50%;
-            //     margin-left: -20px;
-            //   }
     }
-}
