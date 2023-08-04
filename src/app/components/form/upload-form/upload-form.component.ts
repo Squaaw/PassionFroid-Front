@@ -1,11 +1,8 @@
-import { HttpClient } from '@angular/common/http';
 import { Component, ElementRef, OnChanges, OnInit, SimpleChanges, ViewChild } from '@angular/core';
 import { NgForm } from '@angular/forms';
-import { DomSanitizer } from '@angular/platform-browser';
 import { clearAllBodyScrollLocks } from 'body-scroll-lock';
 import { faTrash, faClose, faList, faFileArrowUp, faPlus } from '@fortawesome/free-solid-svg-icons';
 import { ImageDataAzure } from 'src/app/models/image';
-
 import { ImageService } from 'src/app/services/image/image.service';
 import { MatDialog } from '@angular/material/dialog';
 import { HttpRequestMessageService } from 'src/app/services/http-request-message/http-request-message.service';
@@ -46,8 +43,6 @@ export class UploadFormComponent implements OnInit, OnChanges {
   httpRequestMessage: string = ""
 
   constructor(
-    private http: HttpClient,
-    private sanitizer: DomSanitizer,
     public dialog: MatDialog,
     private imageService: ImageService,
     private httpRequestMessageService: HttpRequestMessageService
@@ -131,7 +126,7 @@ export class UploadFormComponent implements OnInit, OnChanges {
             return imageData.id > max ? imageData.id + 1 : max;
           }, 0);
         }
-        this.urlToB64(this.characterUrl)
+        this.imageService.urlToB64(this.characterUrl)
         .then((data: any) => {
             const imageData = new ImageDataAzure(maxIdd, imageName, data);
             this.selectedImages.push(imageData);
@@ -141,24 +136,13 @@ export class UploadFormComponent implements OnInit, OnChanges {
     }
   }
 
-  urlToB64(url: string) {
-    return fetch(this.urlImage)
-      .then(response => response.blob())
-      .then(blob => new Promise((resolve, reject) => {
-        const reader = new FileReader();
-        reader.onloadend = () => resolve(reader.result);
-        reader.onerror = reject;
-        reader.readAsDataURL(blob);
-      }));
-  }
-
   async onFormSubmit(form: NgForm) {
     let imageLoadPromise
     for (let image of this.selectedImages) {
       try {
         imageLoadPromise = new Promise<void>((resolve, reject) => {
           const img = new Image();
-          img.src = image.base64;
+          img.src = image.source;
           img.addEventListener('load', () => {
             this.width = img.width;
             this.height = img.height;
@@ -169,12 +153,11 @@ export class UploadFormComponent implements OnInit, OnChanges {
           });
         });
       } catch (err) {
-        console.log(err, "err");
       }
         // Wait for the image loading Promise to resolve
         await imageLoadPromise;
         
-        this.imageService.add(image.name, image.base64, this.width, this.height).subscribe(
+        this.imageService.add(image.name, image.source, this.width, this.height).subscribe(
           {
             next: (data: any) => {
             
@@ -187,31 +170,15 @@ export class UploadFormComponent implements OnInit, OnChanges {
                    this.imageService.imagesSubject.next(images)
                    this.closeModal();
                  },
-                 error: (e) => {
-                  
-                 },
-                 complete: () => {
-                  
-                 }
                 }
               )
             },
             error: (e) => {
               console.log(e, "e");
-              
               this.httpRequestMessageService.sethttpMessageRequest(e.error.msg, e.status)
-             
-              
             },
-            complete: () => {
-             
-            }
-          
          })
-        
-      
     }
-   
   }
 
   onDragOver(event: DragEvent): void {

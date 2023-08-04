@@ -1,6 +1,5 @@
 import { Component, OnInit, OnChanges, SimpleChanges, AfterViewChecked, ChangeDetectorRef } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
-import { ImageDataAzure } from 'src/app/models/image';
 import { TagsService } from 'src/app/services/tags/tags.service';
 import { SearchFilterComponent } from '../search-filter.component';
 import { ImageService } from 'src/app/services/image/image.service';
@@ -11,7 +10,7 @@ import { SearchFilterService } from 'src/app/services/search-filter/search-filte
   templateUrl: './tags.component.html',
   styleUrls: ['./tags.component.scss']
 })
-export class TagsComponent implements OnInit, OnChanges, AfterViewChecked {
+export class TagsComponent implements OnInit, AfterViewChecked {
   form: FormGroup;
   selectedTag: any[] = []
   imagesSearchByInput: any[] = []
@@ -42,11 +41,6 @@ export class TagsComponent implements OnInit, OnChanges, AfterViewChecked {
     this.searchFilterService.imagesSearchInput$.subscribe((value) => this.imagesSearchByInput = value)
     this.tagsService.selectedTag$.subscribe((value) => this.selectedTag = value)
 
-  }
-
-  ngOnChanges(changes: SimpleChanges){
-    console.log(changes);
-    
   }
 
   ngAfterViewChecked(): void {

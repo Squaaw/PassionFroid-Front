@@ -39,6 +39,7 @@ export class ListImagesComponent implements OnInit, OnDestroy {
   table: boolean = false;
   scrollTarget: ElementRef;
   isFiltresVisible: boolean = true;
+  isMultipleSelectionImages: boolean = false;
 
   constructor(
     public dialog: MatDialog, 
@@ -97,5 +98,8 @@ export class ListImagesComponent implements OnInit, OnDestroy {
       this.table = true;
     }
   }
-
+  
+  handleMultipleSelection(){
+    this.isMultipleSelectionImages = !this.isMultipleSelectionImages;
+  }
 }

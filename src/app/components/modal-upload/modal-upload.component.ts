@@ -3,7 +3,7 @@ import { Component, ElementRef, Inject, Input, OnInit, ViewChild } from '@angula
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { DomSanitizer } from '@angular/platform-browser';
 import { ImageService } from 'src/app/services/image/image.service';
-import { faUpload, faTrash, faClose, faList, faFileArrowUp } from '@fortawesome/free-solid-svg-icons';
+import { faTrash, faClose, faList, faFileArrowUp } from '@fortawesome/free-solid-svg-icons';
 import { animate, style, transition, trigger } from '@angular/animations';
 import { HttpRequestMessageService } from 'src/app/services/http-request-message/http-request-message.service';
 import { HttpRequestMessage } from 'src/app/services/http-request-message/http-request-message.interface';
@@ -88,11 +88,4 @@ export class ModalUploadComponent implements OnInit {
         this.httpRequestMessageService.sethttpMessageRequest("", 0)
       }
     }
-    
-    toDataURL(url: string){
-      
-    }  
-
-
-    
 }

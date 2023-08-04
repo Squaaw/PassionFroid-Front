@@ -1,7 +1,6 @@
 import { Component, Input, OnInit, Output, EventEmitter } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { faEdit, faTrash, faDownload } from '@fortawesome/free-solid-svg-icons';
-import { ModalUploadComponent } from '../modal-upload/modal-upload.component';
 import { ImageService } from 'src/app/services/image/image.service';
 
 
@@ -11,7 +10,7 @@ import { ImageService } from 'src/app/services/image/image.service';
   styleUrls: ['./edit.component.scss']
 })
 export class EditComponent implements OnInit {
-
+  @Input() isModal: boolean = false;
   faEdit = faEdit;
   faTrash = faTrash;
   faDownload = faDownload;
@@ -37,7 +36,6 @@ export class EditComponent implements OnInit {
     link.href = src
     link.download = fileName
     link.click()
-    
     link.remove()
   }
 

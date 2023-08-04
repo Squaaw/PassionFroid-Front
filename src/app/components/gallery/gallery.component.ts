@@ -1,15 +1,15 @@
-import { Component, OnInit, Input, OnChanges, SimpleChanges, AfterViewInit } from '@angular/core';
+import { Component, OnInit, Input, OnChanges, SimpleChanges, AfterViewInit, ChangeDetectorRef } from '@angular/core';
 import { ImageDataAzure } from 'src/app/models/image';
 import { ImageService } from 'src/app/services/image/image.service';
-import { animate, style, transition, trigger } from '@angular/animations';
-import { faClose } from '@fortawesome/free-solid-svg-icons';
+import { faClose, faDownload, faTrash } from '@fortawesome/free-solid-svg-icons';
 
 @Component({
   selector: 'app-gallery',
   templateUrl: './gallery.component.html',
   styleUrls: ['./gallery.component.scss'],
 })
-export class GalleryComponent implements OnInit, OnChanges {
+export class GalleryComponent implements OnInit {
+  @Input() isMultipleSelectionImages: any;
   selectedFormat: string = "";
   initialImages: ImageDataAzure[] = [];
   imagesVertical: ImageDataAzure[] = [];
@@ -18,17 +18,46 @@ export class GalleryComponent implements OnInit, OnChanges {
   renderView: any[] = [];
   imagesSubject: any;
   item: any = {}
-  displayModal: boolean = false;
   faClose = faClose
+  faDownload = faDownload
+  faTrash = faTrash
+  displayModal: boolean = false;
+  isChecked: boolean = false;
+  selectedImage: any[] = []
 
-  constructor(private imageService: ImageService) {
+  constructor(private imageService: ImageService, private ref: ChangeDetectorRef) {
   }
   
   ngOnInit(): void {
     this.imageService.images$.subscribe((value) => this.renderView = value)
   }
 
-  
+  downloadFile(){
+    for(let image of this.selectedImage){
+      const src = image.source;
+      const link = document.createElement("a")
+      link.href = src
+      link.download = image.name
+      link.click()
+      
+      link.remove()
+    }
+  }
+
+  deleteMultipleImages(){
+    this.imageService.deleteMultipleImages(this.selectedImage)
+    this.selectedImage = []
+  }
+
+  onselectedImageChanged(checked: boolean, item: any){
+    if(checked){
+      this.isChecked = true
+      this.selectedImage.push(item)
+    } else {
+      let itemIndex = this.selectedImage.indexOf(item)
+      this.selectedImage.splice(itemIndex, 1)
+    }
+  }
 
   public splitRenderViewIntoColumns(renderView: any[], columns: number): any[][] {
     const result: any[][] = [];
@@ -46,19 +75,13 @@ export class GalleryComponent implements OnInit, OnChanges {
     return result;
   }
 
-  ngOnChanges(changes: SimpleChanges): void {
-    console.log(changes, "cahnges");
-    
+
+  hideModal(){
+    this.displayModal = false
   }
 
-
-  showModal(item: any){
-    this.item = item
-    this.displayModal = true;
+  showModal(event: any = undefined){
+    this.item = event
+    this.displayModal = true
   }
-
-  hideModal(event: any = undefined){
-    this.displayModal = !event ? false : event
-  }
-
 }

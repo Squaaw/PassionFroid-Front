@@ -14,7 +14,7 @@ export class ImageDataAzure {
     constructor(
         public id: number | null,
         public name: string,
-        public base64: string,
+        public source: string,
         public tags: string | null = null,
         public description: string | null = null,
         public width: number | null = null,

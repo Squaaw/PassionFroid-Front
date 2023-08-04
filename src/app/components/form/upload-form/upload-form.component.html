@@ -10,7 +10,6 @@
             </label>
         </div>
     </div>
-    <!-- <p *ngIf="httpMessageSuccess.length > 0" class="alert alert-success">{{httpMessageSuccess}}</p> -->
     <div
         (dragover)="onDragOver($event)"
         (drop)="onDrop($event)" 
@@ -27,7 +26,7 @@
                         <div class="list-img-name">
                             <div *ngFor="let fileName of selectedImages;">
                                 <div>
-                                    <img [src]="fileName.base64" [alt]="fileName.name">
+                                    <img [src]="fileName.source" [alt]="fileName.name">
                                     <p>{{fileName.name}}</p>
                                 </div>
                                 <fa-icon [icon]="faTrash" (click)="deleteImageUploaded(fileName.id ?? 0)"></fa-icon>
@@ -41,7 +40,7 @@
                     <div class="list-img-name" *ngIf="table">
                         <div *ngFor="let fileName of selectedImages;">
                             <div>
-                                <img [src]="fileName.base64" [alt]="fileName.name">
+                                <img [src]="fileName.source" [alt]="fileName.name">
                                 <p>{{fileName.name}}</p>
                             </div>
                             <fa-icon [icon]="faTrash" (click)="deleteImageUploaded(fileName.id ?? 0)"></fa-icon>
@@ -49,7 +48,7 @@
                     </div>
                     <ng-container *ngIf="gallery">
                         <div class="img-container" *ngFor="let img of selectedImages;">
-                            <img [src]="img.base64" [alt]="img.name" class="uploaded-img">
+                            <img [src]="img.source" [alt]="img.name" class="uploaded-img">
                             <div class="overlay-remove">
                                 <fa-icon [icon]="faTrash" (click)="deleteImageUploaded(img.id ?? 0)"></fa-icon>
                             </div>

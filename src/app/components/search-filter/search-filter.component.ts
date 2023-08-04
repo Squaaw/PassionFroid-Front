@@ -91,8 +91,6 @@ export class SearchFilterComponent implements OnInit, OnDestroy {
   }
 
   onOptionChangeSortDate(){
-    console.log(this.sortedCreatedAt);
-    
     this.searchFilterService.sortedCreatedAtSubject.next(this.sortedCreatedAt)
     this.searchFilterService.optionChangeSortDate()
   }
@@ -114,12 +112,8 @@ export class SearchFilterComponent implements OnInit, OnDestroy {
   }
 
   handleSearchImageText(){
-    console.log(this.searchValue, "searchValue");
-    
     this.imageService.getImagesByCognitiveSearch(this.searchValue).subscribe((data: any) => {
       this.imagesSearchByInput = data
-   
-      
       this.searchFilterService.imagesSearchInputSubject.next(this.imagesSearchByInput)
       this.handleFilterImages()
       this.imageService.imagesSubject.next(this.imagesSearchByInput)
@@ -155,7 +149,4 @@ export class SearchFilterComponent implements OnInit, OnDestroy {
     this.searchFilterService.selectedOptionSubject.next("")
     this.isButtonDisabled = this.searchFilterService.handleFilterImages();
   }
-
-
-
 }

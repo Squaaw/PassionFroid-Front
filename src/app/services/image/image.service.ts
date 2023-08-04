@@ -22,8 +22,8 @@ export class ImageService {
   
   constructor(private httpClient: HttpClient) { }
   
-  add(name: string, base64: string, width: number, height: number): Observable<Object> {
-    return this.httpClient.post(this.basePathApi + '/images', { name: name, base64: base64, width: width, height: height }, this.headers)
+  add(name: string, source: string, width: number, height: number): Observable<Object> {
+    return this.httpClient.post(this.basePathApi + '/images', { name: name, source: source, width: width, height: height }, this.headers)
   }
 
   getImagesByCognitiveSearch(text: string, filter:string = "") {
@@ -56,6 +56,26 @@ export class ImageService {
     this.imagesSubject.next(updatedValue)
   }
 
+  updateImageName(id: number, title: string){
+    return this.httpClient.put(this.basePathApi + '/images/' + id + '/update', { name: title }, this.headers)
+  }
+
+  deleteMultipleImages(images: any[]){
+    let imagesFiltered = this.imagesSubject.getValue().filter((data) => !images.includes(data))
+    
+    for(let img of images){
+      this.httpClient.delete(this.basePathApi + '/images/' + img.id + '/delete')
+      .subscribe({
+        next: () => {
+          this.setImages(imagesFiltered);
+          this.setImagesInitial(imagesFiltered)
+          },
+          error: (e) => console.error(e),
+          complete: () => console.info('Http request complete')
+        });
+    }
+  }
+
   deleteImage(id: number) {
     const currentImagesInitial = this.imagesInitialSubject.getValue();
     const currentImages = this.imagesSubject.getValue();
@@ -63,7 +83,6 @@ export class ImageService {
     
     const updatedImagesInitial = currentImagesInitial.filter(image => image.id !== id);
     const updatedImages = currentImages.filter(image => image.id !== id);
-
 
     this.httpClient.delete(this.basePathApi + '/images/' + id + '/delete', )
     .subscribe({
@@ -89,5 +108,16 @@ export class ImageService {
     return throwError(() => {
       return errorMessage;
     });
+  }
+
+  urlToB64(url: string) {
+    return fetch(url)
+      .then(response => response.blob())
+      .then(blob => new Promise((resolve, reject) => {
+        const reader = new FileReader();
+        reader.onloadend = () => resolve(reader.result);
+        reader.onerror = reject;
+        reader.readAsDataURL(blob);
+      }));
   }
 }

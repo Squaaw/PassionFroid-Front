@@ -15,3 +15,12 @@
 div{
     cursor: pointer;
 }
+
+div:hover{
+    transform: scale(1.2);
+    cursor: pointer;
+}
+
+span{
+    transition: 0.5s all ease-in;
+}

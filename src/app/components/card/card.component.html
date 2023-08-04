@@ -1,3 +1,3 @@
 <div class="image-grid-container">
-    <img src={{item.base64}} alt="" class="img-fluid" [ngStyle]="{'height.px': item.width, 'width.px': item.height, 'margin': '5px'}" [ngClass]="getImageClass(item.width, item.height)" />
+    <img (click)="showModal(item)" src={{item.source}} alt="" class="img-fluid" [ngStyle]="{'height.px': item.width, 'width.px': item.height, 'margin': '5px'}" [ngClass]="getImageClass(item.width, item.height)" />
 </div>

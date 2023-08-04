@@ -47,9 +47,7 @@ export class Home implements OnInit {
   
   private loadImages(){
     this.imageService.getHttpImages().subscribe({
-      next: (v) => {
-        console.log(v, "v");
-        
+      next: (v) => {      
         this.images = v
         this.imageService.imagesSubject.next(v)
         this.imageService.imagesInitialSubject.next(v)

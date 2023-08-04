@@ -19,12 +19,18 @@
         </button>
     </div>
     <h1 class="text-center my-5">Gallerie d'images</h1>
-    <div class="container-fluid aligns-items-center padding-reset" *ngIf="gallery">
-        <app-gallery
-            class="row justify-content-around mb-3" 
-        ></app-gallery>
-    </div>
-    <div *ngIf="table">
-        <app-table></app-table>
+    <div>
+        <div class="text-center mb-5">
+            <button class="btn" [ngClass]="{'btn-primary': isMultipleSelectionImages, 'btn-secondary': !isMultipleSelectionImages}" (click)="handleMultipleSelection()">Sélection multiple</button>
+        </div>
+        <div class="container-fluid aligns-items-center padding-reset" *ngIf="gallery">
+            <app-gallery
+                class="row justify-content-around mb-3"
+                [isMultipleSelectionImages]="isMultipleSelectionImages"
+            ></app-gallery>
+        </div>
+        <div *ngIf="table">
+            <app-table [isMultipleSelectionImages]="isMultipleSelectionImages"></app-table>
+        </div>
     </div>
 </main>

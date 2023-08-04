@@ -1,7 +1,7 @@
  <div>
-     <span class="me-2">Télécharger</span><fa-icon [icon]="faDownload" class="fa-download me-6" (click)="downloadFile(item.base64, item.name)"></fa-icon>
+     <span *ngIf="isModal" class="me-2">Télécharger</span><fa-icon [icon]="faDownload" class="fa-download me-6" (click)="downloadFile(item.source, item.name)"></fa-icon>
  </div>
  <div>
-     <span class="me-2">Supprimer</span><fa-icon [icon]="faTrash" class="fa-trash me-6" (click)="deleteImage(item.id)"></fa-icon>
+     <span *ngIf="isModal" class="me-2">Supprimer</span><fa-icon [icon]="faTrash" class="fa-trash me-6" (click)="deleteImage(item.id)"></fa-icon>
  </div>
  <!--<fa-icon [icon]="faEdit" class="fa-edit me-6"></fa-icon>-->

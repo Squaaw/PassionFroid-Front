@@ -70,7 +70,7 @@ registerLocaleData(localeFr, 'fr');
     DragDropModule,
     MatProgressSpinnerModule,
     TagInputModule,
-    NgbModule
+    NgbModule,
   ],
   providers: [ImageService, {
     provide: HTTP_INTERCEPTORS,

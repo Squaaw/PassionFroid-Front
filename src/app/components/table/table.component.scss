@@ -11,4 +11,24 @@ table{
     width: 130px;
     height: 90px;
    }
+
+   app-edit{
+    display: flex;
+    justify-content: space-evenly;
+   }
+
+   input[type=checkbox]{
+    width: 20px;
+    height: 20px;
+   }
 }
+
+.fa-trash{
+    color: crimson;
+    padding: 0.3rem
+   }
+  
+  
+  .fa-download{
+    color: #409cb9;
+   }

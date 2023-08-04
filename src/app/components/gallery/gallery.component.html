@@ -1,5 +1,12 @@
+<div *ngIf="isChecked" class="d-flex justify-content-center">
+  <div (click)="downloadFile()" class="action-multiple">
+      <span class="me-2">Télécharger</span><fa-icon [icon]="faDownload" class="fa-download me-6"></fa-icon>
+  </div>
+  <div (click)="deleteMultipleImages()" class="action-multiple">
+      <span class="me-2">Supprimer</span><fa-icon [icon]="faTrash" class="fa-trash me-6"></fa-icon>
+  </div>
+</div>
 <ng-container *ngIf="renderView.length > 0; then contenu; else noContenu"></ng-container>
-
 <ng-template #contenu>
   <div 
     class="row content justify-content-center align-items-start grid-gallery"
@@ -11,8 +18,20 @@
       <ng-container *ngFor="let column of splitRenderViewIntoColumns(renderView, 3)">
         <div class="col-lg-12 col-md-6 mb-lg-0">
           <div class="row">
-            <div class="padding-reset" *ngFor="let item of column">
-              <app-card [item]="item" (click)="showModal(item)"></app-card>
+            <div class="padding-reset" [ngClass]="{'selected': selectedImage.includes(item)}" *ngFor="let item of column">
+              <app-card
+                
+                [item]="item" 
+                [isMultipleSelectionImages]="isMultipleSelectionImages" 
+                (showModalEvent)="showModal($event)"
+              ></app-card>
+                  
+              <input *ngIf="isMultipleSelectionImages" type="checkbox" #selectedImageCheckBox
+                id="selectedImageCheckBox" 
+                [checked]="selectedImage.includes(item)" 
+                name="check"
+                (change)="onselectedImageChanged(selectedImageCheckBox.checked, item)"/>
+        
             </div>
           </div>
         </div>
@@ -24,8 +43,21 @@
         <ng-container *ngFor="let column of splitRenderViewIntoColumns(renderView, 2)">
           <div class="col-lg-6 col-md-6 mb-lg-0">
             <div class="row">
-              <div class="padding-reset" *ngFor="let item of column">
-                <app-card [item]="item" (click)="showModal(item)"></app-card>
+              <div class="padding-reset" [ngClass]="{'selected': selectedImage.includes(item)}" *ngFor="let item of column">
+                <app-card 
+                 
+                  [item]="item" 
+                  [isMultipleSelectionImages]="isMultipleSelectionImages" 
+                  (showModalEvent)="showModal($event)"
+                >
+                </app-card>
+                    
+                <input *ngIf="isMultipleSelectionImages" type="checkbox" #selectedImageCheckBox
+                id="selectedImageCheckBox" 
+                [checked]="selectedImage.includes(item)" 
+                name="check"
+                (change)="onselectedImageChanged(selectedImageCheckBox.checked, item)"/>
+        
               </div>
             </div>
           </div>
@@ -36,8 +68,19 @@
         <ng-container *ngFor="let column of splitRenderViewIntoColumns(renderView, 3)">
           <div class="col-lg-4 col-md-6 mb-lg-0">
             <div class="row">
-              <div class="padding-reset" *ngFor="let item of column">
-                <app-card [item]="item" (click)="showModal(item)"></app-card>
+              <div class="padding-reset" [ngClass]="{'selected': selectedImage.includes(item)}" *ngFor="let item of column">
+                <app-card  
+                  [item]="item" 
+                  [isMultipleSelectionImages]="isMultipleSelectionImages" 
+                  (showModalEvent)="showModal($event)"
+                ></app-card>
+                    
+                <input *ngIf="isMultipleSelectionImages" type="checkbox" #selectedImageCheckBox
+                id="selectedImageCheckBox" 
+                [checked]="selectedImage.includes(item)" 
+                name="check"
+                (change)="onselectedImageChanged(selectedImageCheckBox.checked, item)"/>
+        
               </div>
             </div>
           </div>
@@ -53,13 +96,13 @@
   <div class="d-flex justify-content-center"><p [ngClass]="{'mt-5': images.length == 0}">Aucune images disponible.</p></div>
 </ng-template>
 
-<div class="modal" data-bs-backdrop="static" data-bs-keyboard="false" [ngClass]="{'show': displayModal}" tabindex="-1" id="exampleModal" [ngStyle]="{'display': displayModal ? 'block' : 'none'}" style="background: #00000094">
+<div class="modal" data-bs-backdrop="static" data-bs-keyboard="false" [ngClass]="{'show': displayModal}" tabindex="-1" [ngStyle]="{'display': displayModal ? 'block' : 'none'}" style="background: #00000094">
   <div class="modal-dialog modal-dialog-centered">
     <div class="modal-content">
       <button type="button" class="btn-close-modal" aria-label="Close" (click)="hideModal()"><fa-icon [icon]="faClose"></fa-icon></button>
-      <app-card-details
+      <app-card-details *ngIf="displayModal"
         [item]="item"
-        (displayModalEvent)="hideModal($event)"
+        (displayModalEvent)="hideModal()"
       ></app-card-details>
     </div>
   </div>

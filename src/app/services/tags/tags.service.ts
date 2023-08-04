@@ -30,6 +30,10 @@ export class TagsService {
     return this.httpClient.post(this.basePathApi + '/images-by-tags/', { tags: tags }, this.headers)
   }
 
+  removeTags(image_id: number, tags: string[]): Observable<any> {
+    return this.httpClient.post(this.basePathApi + '/tags-remove-by-name/', { image_id: image_id, tags: tags }, this.headers);
+  }
+
   setTagsArray(tags: Tags[]) { this.tagsArraySubject.next(tags); }
 
   setImagesByTags(images: ImageDataAzure[]) { this.imagesByTagsSubject.next(images); }
