@@ -12,7 +12,7 @@
             <img src="assets/icon/grid.png" alt="icone grid" (click)="toggleViewImages('gallery')" class="icon-list" [ngStyle]="{'background-color': gallery ? '#E3E3E3' : 'inherit'}">
             <fa-icon [icon]="faList" class="icon-list" (click)="toggleViewImages('table')" class="icon-list" [ngStyle]="{'background-color': table ? '#E3E3E3' : 'inherit'}"></fa-icon>
         </div>
-        <p *ngIf="imagesFiltered.length > 0" class="mb-0">Images trouvées: <span class="fw-bold">{{imagesFiltered.length}}</span></p>
+        <!-- <p class="mb-0">Images trouvées: <span class="fw-bold">{{imagesFiltered.length}}</span></p> -->
         <button class="btn btn-secondary" (click)="openDialog()">
             Ajouter
             <fa-icon [icon]="faAdd" class="icon-add"></fa-icon>

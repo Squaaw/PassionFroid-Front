@@ -143,6 +143,8 @@ export class UploadFormComponent implements OnInit, OnChanges {
         imageLoadPromise = new Promise<void>((resolve, reject) => {
           const img = new Image();
           img.src = image.source;
+          console.log(image.source);
+          
           img.addEventListener('load', () => {
             this.width = img.width;
             this.height = img.height;

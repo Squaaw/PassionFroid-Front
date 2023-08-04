@@ -69,7 +69,7 @@ export class ModalUploadComponent implements OnInit {
     
               setTimeout(() => {
                 this.showAlert = false;
-              }, 3000); // Réglez la durée (en millisecondes) selon vos besoins
+              }, 3000);
             }
           })
     }

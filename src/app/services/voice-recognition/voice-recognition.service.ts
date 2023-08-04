@@ -57,7 +57,7 @@ export class VoiceRecognitionService {
   }
 
   start() {
-    this.searchFilterService.handleFilterImages()
+    
     this.playAudioStart();
     this.isStoppedSpeechRecog = false;
     this.setIsStoppedSpeechRecognizeSubjectValue(false);
@@ -77,7 +77,7 @@ export class VoiceRecognitionService {
             next: (images: any) => {
               this.imagesSearchByInput = images
               this.searchFilterService.imagesSearchInputSubject.next(this.imagesSearchByInput)
-              this.searchFilterService.handleFilterImages()
+              //this.searchFilterService.handleFilterImages()
               this.imageService.imagesSubject.next(this.imagesSearchByInput)
             },
             error: (e) => console.error(e),

@@ -43,6 +43,7 @@ export class SearchFilterService {
     
     this.isActiveFilter = true;
     let imagesArray = []
+    console.log("filter");
     
     if(this.imagesSearchInputSubject.getValue().length > 0){
       imagesArray = this.imagesSearchInputSubject.getValue()

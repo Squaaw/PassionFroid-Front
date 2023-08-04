@@ -91,6 +91,7 @@ export class SearchFilterComponent implements OnInit, OnDestroy {
   }
 
   onOptionChangeSortDate(){
+    this.isButtonDisabled = false;
     this.searchFilterService.sortedCreatedAtSubject.next(this.sortedCreatedAt)
     this.searchFilterService.optionChangeSortDate()
   }
@@ -112,6 +113,8 @@ export class SearchFilterComponent implements OnInit, OnDestroy {
   }
 
   handleSearchImageText(){
+    console.log(this.searchFilterService.imagesFilteredSubject.getValue(), "imazges fitlered");
+    
     this.imageService.getImagesByCognitiveSearch(this.searchValue).subscribe((data: any) => {
       this.imagesSearchByInput = data
       this.searchFilterService.imagesSearchInputSubject.next(this.imagesSearchByInput)
@@ -122,7 +125,7 @@ export class SearchFilterComponent implements OnInit, OnDestroy {
 
   startService() {
     this.service.start();
-    this.handleFilterImages();
+    //this.handleFilterImages();
 
     if(this.isStoppedSpeechRecognize == false){
     
@@ -131,12 +134,14 @@ export class SearchFilterComponent implements OnInit, OnDestroy {
   }
 
   onOptionChangeAccuracy(){
+    this.isButtonDisabled = false;
     this.searchFilterService.filterSimilaritySubject.next(this.filter)
     this.searchFilterService.optionChangeAccuracyHandler()
   }
 
 
   onOptionChangeOrientation() {
+    this.isButtonDisabled = false;
     this.searchFilterService.selectedOptionSubject.next(this.selectedOption)
     this.searchFilterService.orientationImageHandler()
   }
@@ -148,5 +153,6 @@ export class SearchFilterComponent implements OnInit, OnDestroy {
     this.searchFilterService.sortedCreatedAtSubject.next("")
     this.searchFilterService.selectedOptionSubject.next("")
     this.isButtonDisabled = this.searchFilterService.handleFilterImages();
+    console.log(this.searchFilterService.sortedCreatedAtSubject.getValue(), "sortedAt behavior clear");
   }
 }

@@ -5,7 +5,7 @@
                 <img src="https://www.passionfroid.fr/themes/custom/pomona_base_theme/assets/images/pomona-logos/passionfroid-vertical.png" alt="PassionFroid Logo" />
             </div>
     
-            <form #myForm="ngForm" class="login-form" (ngSubmit)="loginCheck(myForm)">
+            <form #myForm="ngForm" class="login-form text-center" (ngSubmit)="loginCheck(myForm)">
                 <h1>Authentification</h1>
                 <div *ngIf="errors">
                     <div *ngFor="let err of errors">
@@ -26,9 +26,7 @@
                     </svg>
                 </div>
     
-                <input type="submit" value="Connexion" />
-    
-                <a href="#">Mot de passe oublié ?</a>
+                <input type="submit" class="btn" style="background-color: #c850c0; color: white;" value="Connexion" />
             </form>
         </div>
     </div>

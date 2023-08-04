@@ -19,6 +19,10 @@ export class ImageService {
  
   imagesInitial$ = this.imagesInitialSubject.asObservable();
   images$ = this.imagesSubject.asObservable();
+
+  isMultipleSelectionImagesSubject = new BehaviorSubject<boolean>(false);
+  isMultipleSelectionImages$ = this.isMultipleSelectionImagesSubject.asObservable();
+
   
   constructor(private httpClient: HttpClient) { }
   
@@ -49,6 +53,8 @@ export class ImageService {
   setImagesInitial(images: ImageDataAzure[]) { this.imagesInitialSubject.next(images); }
 
   setImages(images: ImageDataAzure[]) { this.imagesSubject.next(images); }
+
+  setIsMultipleSelectionImages(value: boolean) { this.isMultipleSelectionImagesSubject.next(value); }
 
   updateImagesSubject(newItem: any) {
     const currentValue = this.imagesSubject.getValue();

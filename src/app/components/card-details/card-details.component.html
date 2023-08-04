@@ -1,11 +1,6 @@
 <div>
     <div class="card" style="font-size: 20px">
         <img src={{item.source}} class="card-img-top" alt="...">
-        <p *ngIf="httpRequestMessage.msg.length > 0" class="alert alert-success m-1" [@fade]="showAlert"
-            class="alert alert-dismissible fade show text-center"
-            [ngClass]="{'alert-success': httpRequestMessage.status == 200, 'alert-danger': httpRequestMessage.status != 200}"
-            type="success" 
-            role="alert">{{httpRequestMessage}}</p>
         <div class="card-body">
             <p class="card-text editable-content">
                 <strong>Titre : </strong>
@@ -17,9 +12,9 @@
             </p>
 
             <p class="card-text"> <strong>Description : </strong>{{item.description}}</p>
-            <p class="card-text"> <strong>Format : </strong>{{item.name | splitByComma:'.' : true}}</p>
-            <p class="card-text"> <strong>Poids : </strong>{{formatBytes(byteLength(item.source))}}</p>
-            <p class="card-text"> <strong>Dimensions : </strong>{{getImgSize(item.source)}}</p>
+            <p class="card-text"> <strong>Format : </strong>{{formatImage}}</p>
+            <!-- <p class="card-text"> <strong>Poids : </strong>{{formatBytes(byteLength(item.source))}}</p> -->
+            <p class="card-text"> <strong>Dimensions : </strong>{{item.width}} x {{item.height}}</p>
             <p class="card-text mt-4 editable-content"> <strong>Tags</strong>
                 <fa-icon [ngStyle]="{'display': editTags ? 'none' : 'block'}" [icon]="faPen" class="faPen ms-2" (click)="editTag()"></fa-icon>
                 <fa-icon [ngStyle]="{'display': editTags ? 'block' : 'none'}" [icon]="faCheck" class="faCheck ms-2" (click)="removeTags()"></fa-icon>

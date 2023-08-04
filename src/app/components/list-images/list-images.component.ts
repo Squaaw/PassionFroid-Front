@@ -30,7 +30,6 @@ export class ListImagesComponent implements OnInit, OnDestroy {
 
   images: ImageDataAzure[] = [];
   imagesFiltered: ImageDataAzure[] = [];
-
   faSearch = faSearch;
   faChevronDown = faChevronDown;
   faList = faList;
@@ -59,6 +58,9 @@ export class ListImagesComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.searchFilterService.isFiltresVisible$.subscribe((value) => this.isFiltresVisible = value)
     this.searchFilterService.imagesFiltered$.subscribe((value) => this.imagesFiltered = value)
+    this.imageService.isMultipleSelectionImages$.subscribe((value) => this.isMultipleSelectionImages = value)
+    console.log(this.imagesFiltered);
+    
   }
 
   disableScroll() {

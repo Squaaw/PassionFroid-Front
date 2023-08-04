@@ -24,9 +24,10 @@ export class CardDetailsComponent implements OnInit {
   showAlert = true;
   selectedTags: string[] = []
   urlToBase64: string = ""
+  formatImage: string = ""
 
   clear(){
-    this.editableItemName = this.item.name;
+    this.editableItemName = this.item.name.split(".")[0];
     this.editDisplay = false;
   }
 
@@ -42,7 +43,8 @@ export class CardDetailsComponent implements OnInit {
   ) {}
   
   ngOnInit(): void {
-    this.editableItemName = this.item.name;
+    this.editableItemName = this.item.name.split(".")[0];
+    this.formatImage = this.item.name.split(".")[1]
   }
 
   shareDisplayMode(event: any = undefined){
@@ -75,16 +77,6 @@ export class CardDetailsComponent implements OnInit {
     const i = Math.floor(Math.log(bytes) / Math.log(k))
 
     return `${parseFloat((bytes / Math.pow(k, i)).toFixed(dm))} ${sizes[i]}`
-  }
-
-  getImgSize(base64: string){
-    if(!base64)
-      return
-
-    var img = new Image();
-    img.src = base64;
-
-    return `${img.width} x ${img.height}`
   }
 
   onClickTags(tag: string){
@@ -149,15 +141,11 @@ export class CardDetailsComponent implements OnInit {
     this.imagesService.updateImageName(id, this.editableItemName).subscribe({
 
       next: (value: any) => {
-        console.log(value.msg, "good");
+       
         this.httpRequestMessageService.sethttpMessageRequest(value.msg, 200)
         this.httpRequestMessage = value
-        if(this.httpRequestMessage.msg.length > 0){
-    
-          setTimeout(() => {
-            this.showAlert = false;
-          }, 3000);
-        }
+        this.item.name = this.editableItemName
+       
       },
       error: (e) => console.error(e),
       complete: () => console.info('Http request complete')
