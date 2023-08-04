@@ -1,0 +1,22 @@
+<div class="container-lg justify-content-center align-items-center">
+    <div>
+        <div class="logo">
+            <img src="assets/logo.png" alt="">
+        </div>
+    </div>
+    <app-search-filter
+       
+    ></app-search-filter>
+    <ng-container *ngIf="httpErrorMessage.length > 0;">
+        <div 
+          [@fade]="showAlert"
+          *ngIf="showAlert"
+          class="alert alert-danger alert-dismissible fade show" 
+          type="danger"
+          role="alert">
+          {{httpErrorMessage}}<fa-icon [icon]="faRefresh" (click)="onClickReloadData()" class="mx-3"></fa-icon>
+        </div>
+      </ng-container>
+    <app-list-images
+    ></app-list-images>
+</div>

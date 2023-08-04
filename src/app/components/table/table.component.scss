@@ -6,29 +6,29 @@ table{
     width: 100%;
     min-width: 400px;
 
-    thead {
-        tr {
-            text-align: center;
-        }
-    }
+    
+   img{
+    width: 130px;
+    height: 90px;
+   }
 
-    th,
-    td {
-        padding: 12px 15px;
-        text-align: center;
-        vertical-align: middle;
-        font-weight: bold;
-    }
-    tbody {
-        tr{
-            border-top: 1px solid #E3E3E3;
-            border-top: 1px solid #E3E3E3;
-            img{
-                width: 64px;
-                height: 64px;
-                border-radius: 5px;
-                object-fit: cover;
-            }
-        }
-    }
+   app-edit{
+    display: flex;
+    justify-content: space-evenly;
+   }
+
+   input[type=checkbox]{
+    width: 20px;
+    height: 20px;
+   }
 }
+
+.fa-trash{
+    color: crimson;
+    padding: 0.3rem
+   }
+  
+  
+  .fa-download{
+    color: #409cb9;
+   }

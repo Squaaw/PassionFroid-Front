@@ -11,5 +11,16 @@
 export type ImagesData = ImageDataAzure[]
 
 export class ImageDataAzure {
-    constructor(public name: string, public base64: string, public tags: string | null, public description: string | null, public user: number) {}
+    constructor(
+        public id: number | null,
+        public name: string,
+        public source: string,
+        public tags: string | null = null,
+        public description: string | null = null,
+        public width: number | null = null,
+        public height: number | null = null,
+        public similarity: number | null = null,
+        public created_at: Date | null = null,
+        public user: number = 1
+      ) {}
 }

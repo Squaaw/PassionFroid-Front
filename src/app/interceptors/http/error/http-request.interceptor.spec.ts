@@ -1,16 +1,16 @@
 import { TestBed } from '@angular/core/testing';
 
-import { ErrorInterceptor } from './error.interceptor';
+import { HttpRequestInterceptor } from './http-request.interceptor';
 
 describe('ErrorInterceptor', () => {
   beforeEach(() => TestBed.configureTestingModule({
     providers: [
-      ErrorInterceptor
+      HttpRequestInterceptor
       ]
   }));
 
   it('should be created', () => {
-    const interceptor: ErrorInterceptor = TestBed.inject(ErrorInterceptor);
+    const interceptor: HttpRequestInterceptor = TestBed.inject(HttpRequestInterceptor);
     expect(interceptor).toBeTruthy();
   });
 });

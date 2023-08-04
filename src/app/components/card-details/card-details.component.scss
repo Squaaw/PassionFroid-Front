@@ -1,0 +1,38 @@
+app-edit{
+    width: 75%;
+    margin: auto;
+}
+
+img{
+    height: 330px;
+    object-fit: cover;
+}
+
+.badge{
+    cursor: pointer;
+}
+
+.editable-content{
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.faPen{
+    cursor: pointer;
+    color: #ff9800;
+}
+.faPen:hover{
+    transform: scale(1.2);
+}
+.faCheck{
+    cursor: pointer;
+    color: #229c2d;
+}
+.faClose{
+    cursor: pointer;
+    color: crimson;
+}
+
+.selected{
+    background-color: crimson!important;
+}

@@ -1,18 +1,50 @@
-<table class="styled-table">
-    <thead>
-        <tr>
-            <th>Image</th>
-            <th>Nom du fichier</th>
-            <th>Meta description</th>
-            <th>Tags</th>
-        </tr>
-    </thead>
-    <tbody>
-        <tr *ngFor="let item of images">
-            <td><img src={{item.base64}}></td>
-            <td>{{item.name}}</td>
-            <td>{{item.description}}</td>
-            <td>{{item.tags}}</td>
-        </tr>
-    </tbody>
-</table>
+<div *ngIf="isChecked" class="d-flex justify-content-center">
+    <div (click)="downloadFile()" class="action-multiple">
+        <span class="me-2">Télécharger</span><fa-icon [icon]="faDownload" class="fa-download me-6"></fa-icon>
+    </div>
+    <div (click)="deleteMultipleImages()" class="action-multiple">
+        <span class="me-2">Supprimer</span><fa-icon [icon]="faTrash" class="fa-trash me-6"></fa-icon>
+    </div>
+</div>
+<ng-container *ngIf="renderView.length > 0; then contenu; else noContenu"></ng-container>
+<ng-template #contenu>
+<div class="table-responsive">
+    <table class="table table-hover" style="font-size:18px">
+        <thead style="font-size:20px">
+            <tr>
+                <th scope="col" class="fw-bold">#</th>
+                <th scope="col" class="fw-bold">Image</th>
+                <th scope="col" class="fw-bold">Nom du fichier</th>
+                <th scope="col" class="fw-bold">Meta description</th>
+                <th scope="col" class="fw-bold">Tags</th>
+                <th scope="col" class="fw-bold">Date d'ajout</th>
+                <th scope="col" class="fw-bold">Actions</th>
+                <th *ngIf="isMultipleSelectionImages" scope="col" class="fw-bold">Sélection</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let item of renderView">
+                <td>{{item.id}}</td>
+                <td><img class="img-fluid" src={{item.source}}></td>
+                <td>{{item.name}}</td>
+                <td>{{item.description}}</td>
+                <td>{{item.tags}}</td>
+                <td>{{item.created_at | date : "dd/MM/y" : "fr" }}</td>
+                <td><app-edit 
+                    [isModal]="false"
+                    [item]="item"
+                ></app-edit></td>
+                <td class="text-center" *ngIf="isMultipleSelectionImages"><input type="checkbox" #selectedImageCheckBox
+                    id="selectedImageCheckBox" 
+                    [checked]="selectedImage.includes(item)" 
+                    name="check"
+                    (change)="onselectedImageChanged(selectedImageCheckBox.checked, item)"/></td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+</ng-template>
+<ng-template #noContenu>
+  <!-- Placeholder content or alternative display when images.length is not greater than 0 -->
+  <div class="d-flex justify-content-center"><p [ngClass]="{'mt-5': images.length == 0}">Aucune images disponible.</p></div>
+</ng-template>

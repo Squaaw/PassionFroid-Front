@@ -1,123 +1,183 @@
-import { HttpClient } from '@angular/common/http';
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, OnChanges, OnInit, SimpleChanges, ViewChild } from '@angular/core';
 import { NgForm } from '@angular/forms';
-import { DomSanitizer } from '@angular/platform-browser';
-import { faUpload, faTrash, faClose, faList, faFileArrowUp, faPlus } from '@fortawesome/free-solid-svg-icons';
+import { clearAllBodyScrollLocks } from 'body-scroll-lock';
+import { faTrash, faClose, faList, faFileArrowUp, faPlus } from '@fortawesome/free-solid-svg-icons';
 import { ImageDataAzure } from 'src/app/models/image';
-
 import { ImageService } from 'src/app/services/image/image.service';
+import { MatDialog } from '@angular/material/dialog';
+import { HttpRequestMessageService } from 'src/app/services/http-request-message/http-request-message.service';
 
 @Component({
   selector: 'app-upload-form',
   templateUrl: './upload-form.component.html',
   styleUrls: ['./upload-form.component.scss']
 })
-export class UploadFormComponent implements OnInit {
+export class UploadFormComponent implements OnInit, OnChanges {
 
-  @ViewChild('imageInput', { static: false }) imageInput: ElementRef;
-  selectedImages: any = [];
-  allFileNames: any = [];
+  @ViewChild('imageInput', { static: false }) imageInput!: ElementRef;
+  selectedImages: ImageDataAzure[] = [];
+  images: ImageDataAzure[] = [];
+  imagesInitial: ImageDataAzure[] = [];
+  allFileNames: string[] = [];
   fileName = '';
-  loaded: boolean = false;
-  imageLoaded: boolean = false;
+  loaded = false;
+  imageLoaded = false;
   imageSrc: any = null;
   faUpload = faFileArrowUp;
   faTrash = faTrash;
   faClose = faClose;
   faList = faList;
   faPlus = faPlus;
-  urlImage: string = '';
+  urlImage = '';
   titleModal = "un fichier local";
   reader: FileReader = new FileReader();
-  gallery: boolean = true;
-  table: boolean = false;
-  selectedOption: string = 'file';
+  gallery = true;
+  table = false;
+  selectedOption = 'file';
   isDragOver = false;
   droppedImage: any = null;
-  characterUrl: any = ""
+  characterUrl: any = "";
+  height = 0;
+  width = 0;
+  maxIDImage = 0;
+  httpRequestMessage: string = ""
 
   constructor(
-    private http: HttpClient,
-    private sanitizer: DomSanitizer,
-    private imageService: ImageService
-  ) {
-    this.imageInput = new ElementRef(null);
-
-  }
-
-
+    public dialog: MatDialog,
+    private imageService: ImageService,
+    private httpRequestMessageService: HttpRequestMessageService
+  ) {}
 
   ngOnInit(): void {
-
-
+    this.images = this.imageService.imagesSubject.getValue();
+    this.imagesInitial = this.imageService.imagesInitialSubject.getValue();
+    this.httpRequestMessageService.httpMessageRequest$.subscribe((value: any) => this.httpRequestMessage = value)
   }
-
-  onSelected(e: any): void {
-    this.selectedOption = e.target.value;
-    if (this.selectedOption == "url") {
-      this.titleModal = "une url";
-    } else {
-      this.titleModal = "un fichier local"
+  
+  ngOnChanges(changes: SimpleChanges){
+    if (changes['imagesVertical']) {
+      
     }
   }
 
-  onFileSelected(files: any): void {
-    // Parcourir les fichiers uploadés
+  onSelectedRadioButtonImage(e: any): void {
+    this.selectedOption = e.target.value;
+    this.titleModal = this.selectedOption === "url" ? "une url" : "un fichier local";
+  }
+
+  handleFileUpload(files: any): void {
     if (files) {
-
-      for (let i = 0; i < files.target.files.length; i++) {
-        const file: any = files.target.files[i];
-        const name = file.name;
-        const reader = new FileReader();
-        reader.onload = (event: any) => {
-          const base64 = event.target.result;
-
-          const imageData = new ImageDataAzure(name, base64, null, null, 1);
-
-          this.selectedImages.push(imageData);
-
-          this.loaded = true;
-        };
-        reader.readAsDataURL(file);
-
-      }
+      this.imageService.getMaxImageIdNextIncrement().toPromise()
+        .then((data) => {
+          this.maxIDImage = data.max_id;
+          this.processFiles(files, this.maxIDImage);
+        })
+        .catch((error) => {
+          console.error("Une erreur s'est produite lors de la récupération de l'ID d'image maximum :", error);
+          // Gérer l'erreur
+        });
     }
     this.loaded = false;
   }
+  
+  processFiles(files: any, maxId: number): void {
+    let lastImageId = maxId - 1;
+  
+    for (let i = 0; i < files.target.files.length; i++) {
+      const file: any = files.target.files[i];
+      const name = file.name;
+      const reader = new FileReader();
+      reader.onload = (event: any) => {
+        const base64 = event.target.result;
+        const imageData = new ImageDataAzure(
+          lastImageId && lastImageId + 1,
+          name,
+          base64
+        );
+  
+        this.selectedImages.push(imageData);
+  
+        this.table = true;
+        this.gallery = false;
+        this.loaded = true;
+        if (this.selectedImages.length > 0 && this.selectedImages[this.selectedImages.length - 1].id !== null) {
+          lastImageId = this.selectedImages[this.selectedImages.length - 1].id!;
+        } else {
+          lastImageId = 0;
+        }
+      };
+      reader.readAsDataURL(file);
+    }
+  }
 
-  onInputChange(event: any) {
+  onUrlInputChange(event: any) {
     const enteredCharacter = event.target.value;
-    this.characterUrl = enteredCharacter
+    this.characterUrl = enteredCharacter;
   }
 
   onAddUrlImage() {
-    let stringBase64 = "";
-    let imageName = this.characterUrl.split("/").pop()
-
-    this.urlToB64(this.characterUrl)
-      .then((data: any) => {
-        const imageData = new ImageDataAzure(imageName, data, null, null, 1);
-        this.selectedImages.push(imageData)
-      })
+    const imageName = this.characterUrl.split("/").pop();
+    if (imageName.length) {
+      this.imageService.getMaxImageIdNextIncrement().toPromise()
+      .then((maxId) => {
+        let maxIdd = maxId.max_id;
+        if (this.selectedImages.length >= 1) {
+          maxIdd = this.selectedImages.reduce((max: any, imageData: any) => {
+            return imageData.id > max ? imageData.id + 1 : max;
+          }, 0);
+        }
+        this.imageService.urlToB64(this.characterUrl)
+        .then((data: any) => {
+            const imageData = new ImageDataAzure(maxIdd, imageName, data);
+            this.selectedImages.push(imageData);
+            this.urlImage = "";
+        });
+      });
+    }
   }
 
-  async urlToB64(url: string) {
-    return fetch(this.urlImage)
-      .then(response => response.blob())
-      .then(blob => new Promise((resolve, reject) => {
-        const reader = new FileReader()
-        reader.onloadend = () => resolve(reader.result)
-        reader.onerror = reject
-        reader.readAsDataURL(blob)
-      }))
-  }
-
-  onFormSubmit(form: NgForm) {
-    let stringBase64 = "";
-
+  async onFormSubmit(form: NgForm) {
+    let imageLoadPromise
     for (let image of this.selectedImages) {
-      stringBase64 = image.base64.split(",")[1]
-      this.imageService.add(image.name, image.base64).catch((err) => { console.log(err, "err"); })
+      try {
+        imageLoadPromise = new Promise<void>((resolve, reject) => {
+          const img = new Image();
+          img.src = image.source;
+          img.addEventListener('load', () => {
+            this.width = img.width;
+            this.height = img.height;
+            resolve(); // Resolve the Promise when the image is loaded
+          });
+          img.addEventListener('error', () => {
+            reject(new Error('Failed to load image')); // Reject the Promise if image loading fails
+          });
+        });
+      } catch (err) {
+      }
+        // Wait for the image loading Promise to resolve
+        await imageLoadPromise;
+        
+        this.imageService.add(image.name, image.source, this.width, this.height).subscribe(
+          {
+            next: (data: any) => {
+            
+              
+              this.httpRequestMessageService.sethttpMessageRequest(data.msg, 200)
+              this.imageService.getHttpImages().subscribe(
+               {
+                 next: (images: ImageDataAzure[]) => {
+                   this.imageService.imagesInitialSubject.next(images)
+                   this.imageService.imagesSubject.next(images)
+                   this.closeModal();
+                 },
+                }
+              )
+            },
+            error: (e) => {
+              console.log(e, "e");
+              this.httpRequestMessageService.sethttpMessageRequest(e.error.msg, e.status)
+            },
+         })
     }
   }
 
@@ -128,57 +188,54 @@ export class UploadFormComponent implements OnInit {
 
   onDrop(event: DragEvent): void {
     event.preventDefault();
-    var files = event.dataTransfer?.files;
-    if (files && files.length > 0) {
-      for (let i = 0; i < files.length; i++) {
-        const imageFile = files[i];
-        const reader = new FileReader();
-        reader.onload = (e: any) => {
-          const imageData = new ImageDataAzure(imageFile.name, e.target.result, null, null, 1);
-          this.droppedImage = e.target.result;
-          this.selectedImages.push(imageData)
-        };
-        reader.readAsDataURL(imageFile);
+    const files = event.dataTransfer?.files;
+    
+    this.imageService.getMaxImageIdNextIncrement().subscribe(maxId => {
+      let nextId = maxId.max_id;
+      if (files && files.length > 0) {
+        for (let i = 0; i < files.length; i++) {
+          const imageFile = files[i];
+          const reader = new FileReader();
+          reader.onload = (e: any) => {
+            const imageData = new ImageDataAzure(nextId, imageFile.name, e.target.result);
+            this.droppedImage = e.target.result;
+            this.selectedImages.push(imageData);
+            nextId++;
+          };
+          reader.readAsDataURL(imageFile);
+        }
       }
-    }
+    });
     this.isDragOver = false;
   }
+  
+  deleteImage(index: number) {
+    this.imageService.deleteImage(index);
 
-
-  clearImg(index: number) {
-    this.imageService.deleteImage(index)
-
-    if (this.imageInput && this.imageInput.nativeElement) {
+    if (this.imageInput && this.imageInput.nativeElement)
       this.imageInput.nativeElement.value = '';
-    }
 
-    if (this.selectedImages.length <= 0) {
+    if (this.selectedImages.length <= 0)
       this.loaded = false;
-    }
   }
 
-  clearImgUploaded(index: number) {
-   this.selectedImages.splice(index, 1)
+  deleteImageUploaded(index: number) {
+    this.selectedImages.splice(index, 1);
 
-    if (this.imageInput && this.imageInput.nativeElement) {
+    if(this.imageInput && this.imageInput.nativeElement)
       this.imageInput.nativeElement.value = '';
-    }
-
-    if (this.selectedImages.length <= 0) {
+    
+    if(this.selectedImages.length <= 0) 
       this.loaded = false;
-    }
   }
 
-  toggleComponents(component: string) {
-    console.log(this.gallery, "le composant");
-
-    if (component === 'gallery') {
-      this.gallery = true;
-      this.table = false;
-    } else if (component === 'table') {
-      this.gallery = false;
-      this.table = true;
-    }
+  toggleViewImages(component: string) {
+    this.gallery = component === 'gallery';
+    this.table = component === 'table';
   }
 
+  closeModal(): void {
+    clearAllBodyScrollLocks();
+    this.dialog.closeAll();
+  }
 }

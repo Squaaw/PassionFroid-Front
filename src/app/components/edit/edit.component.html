@@ -1,2 +1,7 @@
-<fa-icon [icon]="faEdit" class="fa-edit" (click)="openDialog()"></fa-icon>
-<fa-icon [icon]="faTrash" class="fa-trash" (click)="clearImg(index)"></fa-icon>
+ <div>
+     <span *ngIf="isModal" class="me-2">Télécharger</span><fa-icon [icon]="faDownload" class="fa-download me-6" (click)="downloadFile(item.source, item.name)"></fa-icon>
+ </div>
+ <div>
+     <span *ngIf="isModal" class="me-2">Supprimer</span><fa-icon [icon]="faTrash" class="fa-trash me-6" (click)="deleteImage(item.id)"></fa-icon>
+ </div>
+ <!--<fa-icon [icon]="faEdit" class="fa-edit me-6"></fa-icon>-->

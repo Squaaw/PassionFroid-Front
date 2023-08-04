@@ -6,6 +6,8 @@
    v2.0 | 20110126
    License: none (public domain)
 */
+@import "~bootstrap/dist/css/bootstrap.css";
+@import '~bootstrap/scss/bootstrap';
 
 @font-face {
 	font-family: "Poppins-light";
@@ -41,7 +43,7 @@ footer, header, hgroup, menu, nav, section {
 }
 body {
 	line-height: 1;
-	font-family: 'Poppins-Light'
+	font-family: 'Poppins-Light';
 }
 ol, ul {
 	list-style: none;
@@ -76,7 +78,7 @@ table {
 .filter-list{
 	display: flex;
 	align-items: center;
-	justify-content: space-around;
+	justify-content: end;
 	img{
 		width: 19px;
 		height: 18px;
@@ -92,3 +94,30 @@ table {
 		background-color: #E3E3E3;
 	}
 }
+
+$container-max-widths: (
+  sm: 540px,
+  md: 720px,
+  lg: 960px,
+  xl: 1840px,
+);
+
+@each $breakpoint,
+$container-max-width in $container-max-widths {
+  .container-#{$breakpoint} {
+    @extend .container-fluid;
+  }
+  
+  @include media-breakpoint-up($breakpoint, $grid-breakpoints) {
+    %responsive-container-#{$breakpoint} {
+      max-width: $container-max-width;
+    }
+  }
+}
+/* Importing Bootstrap SCSS file. */
+@import "~bootstrap/scss/bootstrap";
+/* Importing Datepicker SCSS file. */
+@import "node_modules/ngx-bootstrap/datepicker/bs-datepicker";
+//@import "~@ng-select/ng-select/themes/default.theme.css";
+/* Importing Bootstrap SCSS file. */
+@import '~bootstrap/scss/bootstrap';
