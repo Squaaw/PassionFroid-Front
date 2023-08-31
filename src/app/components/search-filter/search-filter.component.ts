@@ -113,8 +113,6 @@ export class SearchFilterComponent implements OnInit, OnDestroy {
   }
 
   handleSearchImageText(){
-    console.log(this.searchFilterService.imagesFilteredSubject.getValue(), "imazges fitlered");
-    
     this.imageService.getImagesByCognitiveSearch(this.searchValue).subscribe((data: any) => {
       this.imagesSearchByInput = data
       this.searchFilterService.imagesSearchInputSubject.next(this.imagesSearchByInput)
@@ -153,6 +151,5 @@ export class SearchFilterComponent implements OnInit, OnDestroy {
     this.searchFilterService.sortedCreatedAtSubject.next("")
     this.searchFilterService.selectedOptionSubject.next("")
     this.isButtonDisabled = this.searchFilterService.handleFilterImages();
-    console.log(this.searchFilterService.sortedCreatedAtSubject.getValue(), "sortedAt behavior clear");
   }
 }

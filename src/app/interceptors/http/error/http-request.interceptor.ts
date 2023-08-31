@@ -24,8 +24,6 @@ export class HttpRequestInterceptor implements HttpInterceptor {
 
     return next.handle(request).pipe( tap(() => {},
       (err: any) => {
-        console.log(err, "err dans interceptor");
-        
       if (err instanceof HttpErrorResponse) {
         this.httpRequestMessageService.sethttpMessageRequest(err.error.msg, err.status)
       }

@@ -143,7 +143,6 @@ export class UploadFormComponent implements OnInit, OnChanges {
         imageLoadPromise = new Promise<void>((resolve, reject) => {
           const img = new Image();
           img.src = image.source;
-          console.log(image.source);
           
           img.addEventListener('load', () => {
             this.width = img.width;
@@ -176,7 +175,6 @@ export class UploadFormComponent implements OnInit, OnChanges {
               )
             },
             error: (e) => {
-              console.log(e, "e");
               this.httpRequestMessageService.sethttpMessageRequest(e.error.msg, e.status)
             },
          })

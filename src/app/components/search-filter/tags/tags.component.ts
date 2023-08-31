@@ -34,8 +34,6 @@ export class TagsComponent implements OnInit, AfterViewChecked {
   ngOnInit(): void {
     this.tagsService.tagsArray$.subscribe((data:any) => {
       this.autocompleteItemsAsObjects = data
-      console.log(data, "tag data");
-      
     })
 
     this.searchFilterService.imagesSearchInput$.subscribe((value) => this.imagesSearchByInput = value)
@@ -62,8 +60,6 @@ export class TagsComponent implements OnInit, AfterViewChecked {
       this.tagsService.getImagesByTag(arr).subscribe({
         next: (value: any) => {
           this.searchComp.handleFilterImages()
-          console.log(value, "value tags");
-          
           this.tagsService.setImagesByTags(value)
           this.searchFilterService.setImagesFiltered(value)
           this.searchFilterService.setImageSearchInput(value)
